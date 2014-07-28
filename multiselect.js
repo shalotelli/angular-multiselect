@@ -9,7 +9,14 @@
 angular.module('shalotelli-angular-multiselect', [])
   .directive('multiSelect', function () {
     return {
-      templateUrl: 'views/directives/multi-select.html',
+      templateUrl: function (element, attrs) {
+        if (attrs.templatePath !== undefined) {
+          return attrs.templatePath;
+        }
+
+        return 'bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html';
+      },
+      
       restrict: 'E',
       replace: true,
 
@@ -22,7 +29,8 @@ angular.module('shalotelli-angular-multiselect', [])
         otherDefaultValueType: '@',
         otherEvent: '@',
         valueField: '@',
-        labelField: '@'
+        labelField: '@',
+        templatePath: '@'
       },
 
       link: function multiSelectLink(scope, element, attrs) {
