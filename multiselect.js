@@ -6,7 +6,7 @@
  * @description
  * # Angular Multi Select directive
  */
-angular.module('shalotelli-angular-multiselect')
+angular.module('shalotelli-angular-multiselect', [])
   .directive('multiSelect', function () {
     return {
       templateUrl: 'views/directives/multi-select.html',
