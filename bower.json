@@ -1,6 +1,6 @@
 {
   "name": "angular-multiselect",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "authors": [
     "shalotelli <sha@responsiveshops.com>"
   ],
@@ -20,7 +20,7 @@
     "select"
   ],
   "license": "MIT",
-  "homepage": "http://shalotelli.github.io/angular-multiselect/",
+  "homepage": "https://github.com/shalotelli/angular-multiselect/blob/master/README.md",
   "ignore": [
     "**/.*",
     "node_modules",
