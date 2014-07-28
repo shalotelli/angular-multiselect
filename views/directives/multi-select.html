@@ -1,0 +1,27 @@
+<div class="multi-select">
+
+  <textarea class="form-control multi-select-container" ng-focus="onFocus()" readonly></textarea>
+
+  <div class="multi-select-dropdown hide">
+
+    <div class="multi-select-filters" ng-show="showFilters">
+      Select: 
+      <span class="multi-select-filter" ng-click="selectAll()">All</span> 
+      <span class="multi-select-filter" ng-click="selectNone()">None</span>
+    </div><!-- ./multi-select-filters -->
+
+    <ul>
+      <li class="multi-select-option" ng-repeat="value in values">
+        <a class="multi-select-option-link" href="javascript:;" ng-click="selectOption($event, value)">
+          {{value[labelField]}}
+        </a><!-- ./multi-select-option-link -->
+      </li><!-- ./multi-select-option -->
+    </ul>
+
+    <div class="multi-select-other-container" ng-show="showOther">
+      <input type="text" class="form-control multi-select-other" placeholder="Other" ng-model="other">
+    </div><!-- ./multi-select-other-container -->
+
+  </div><!-- ./multi-select-dropdown -->
+
+</div>
