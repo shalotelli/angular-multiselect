@@ -44,3 +44,4 @@ To use this directive, call the multi-select tag, including the model with the a
 | other-event | keyup/blur/enter | Event used to execute "other" field interaction | no | keyup |
 | value-field | string | Specify the key to use as the value field | no | value |
 | label-field | string | Specify the key to use as the label field | no | label |
+| template-path | string | Specify an alternate view template path for the directive | no | bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html |
