@@ -114,6 +114,25 @@ angular.module('shalotelli-angular-multiselect', [])
               return value;
             };
 
+        // pre select items & populate "other" value (if found) after initial digest cycle
+        $timeout(function() {
+          angular.forEach(scope.values, function (value, key) {
+            if (value.isSelected !== undefined && value.isSelected === true) {
+              selectedObjects.push(value);
+            } else if (scope.showOther && value[scope.valueField] == scope.otherDefaultValue) {
+              scope.values.splice(key, 1);
+
+              scope.other = value[scope.labelField];
+
+              scope.doOther();
+            }
+          });
+        }, 0);
+        
+        // initial output
+        scope.model = selectedObjects;
+        displayOptions();
+
         // show filters default value
         attrs.$observe('showFilters', function (showFilters) {
           scope.showFilters = showFilters || true;
@@ -282,6 +301,8 @@ angular.module('shalotelli-angular-multiselect', [])
           // if new other value, push to array otherwise reset history buffer
           if (scope.other !== undefined && scope.other.length > 0) {
             attrs.$observe('otherDefaultValue', function (otherDefaultValue) {
+              scope.otherDefaultValue = otherDefaultValue;
+
               // add label to otherObj
               otherObj[scope.labelField] = scope.other;
 

@@ -12,7 +12,7 @@
 
     <ul>
       <li class="multi-select-option" ng-repeat="value in values">
-        <a class="multi-select-option-link" href="javascript:;" ng-click="selectOption($event, value)">
+        <a class="multi-select-option-link" href="javascript:;" ng-click="selectOption($event, value)" ng-class="{selected: value.isSelected}">
           {{value[labelField]}}
         </a><!-- ./multi-select-option-link -->
       </li><!-- ./multi-select-option -->

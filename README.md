@@ -26,6 +26,8 @@ $ bower install shalotelli-angular-multiselect
 
 To use this directive, call the multi-select tag, including the model with the array of data objects, a reference to the output model and any display options (listed below).
 
+To prepopulate items, add a ```isSelected: true``` key-value pair to the necessary objects.
+
 ```
 <multi-select
   values="values"
