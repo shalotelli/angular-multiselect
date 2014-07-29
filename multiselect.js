@@ -7,7 +7,7 @@
  * # Angular Multi Select directive
  */
 angular.module('shalotelli-angular-multiselect', [])
-  .directive('multiSelect', function () {
+  .directive('multiSelect', [ '$timeout', function ($timeout) {
     return {
       templateUrl: function (element, attrs) {
         if (attrs.templatePath !== undefined) {
@@ -330,4 +330,4 @@ angular.module('shalotelli-angular-multiselect', [])
         };
       }
     };
-  });
+  }]);
