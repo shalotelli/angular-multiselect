@@ -23,6 +23,7 @@ angular.module('shalotelli-angular-multiselect', [])
       scope: {
         values: '=',
         model: '=',
+        name: '@',
         showFilters: '@',
         showOther: '@',
         otherDefaultValue: '@',
@@ -50,7 +51,12 @@ angular.module('shalotelli-angular-multiselect', [])
               Display options in textbox
             */
             displayOptions = function displayOptions() {
-              var labels = [];
+              var labels = [],
+                  broadcastkey = 'multiSelectUpdate';
+
+              if (attrs.name !== undefined) {
+                broadcastkey += '_' + attrs.name;
+              }
 
               for (var i=0;i<selectedObjects.length;i++) {
                 labels.push(selectedObjects[i][scope.labelField]);

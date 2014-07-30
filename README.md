@@ -43,6 +43,7 @@ To prepopulate items, add a ```isSelected: true``` key-value pair to the necessa
 |--------|--------|-------------|----------|---------------|
 | values | array/object | Values to load in to drop down | yes | - |
 | model | array | ngModel to save output to | yes | - |
+| name | string | Unique identifier (useful if there is more than one multiselect on the page) | no | - |
 | show-filters | boolean | Show select all/select none | no | true |
 | show-other | boolean | Enable user to enter custom values | no | false |
 | other-default-value | string | Set a custom default value for the "other" option, useful when you want to identify new entries with a specific id etc | no | _label value_ |
