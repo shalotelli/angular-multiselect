@@ -16,7 +16,7 @@ angular.module('shalotelli-angular-multiselect', [])
 
         return 'bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html';
       },
-      
+
       restrict: 'E',
       replace: true,
 
@@ -26,8 +26,8 @@ angular.module('shalotelli-angular-multiselect', [])
         name: '@',
         showFilters: '@',
         showOther: '@',
-        otherDefaultValue: '@',
         otherDefaultValueType: '@',
+        otherNgModel: '=',
         otherEvent: '@',
         valueField: '@',
         labelField: '@',
@@ -37,13 +37,6 @@ angular.module('shalotelli-angular-multiselect', [])
       link: function multiSelectLink(scope, element, attrs) {
             // dropdown element
         var $dropdown = element.find('.multi-select-dropdown'),
-
-            // container element
-            $container = element.find('.multi-select-container'),
-
-            // selections objects array
-            selectedObjects = [],
-
             // "other" value buffer
             otherHistory = '',
 
@@ -58,14 +51,23 @@ angular.module('shalotelli-angular-multiselect', [])
                 broadcastkey += '_' + attrs.name;
               }
 
-              for (var i=0;i<selectedObjects.length;i++) {
-                labels.push(selectedObjects[i][scope.labelField]);
+              //this is suboptimal (not a lot of time to fix this)
+              syncModel();
+              for (var i=0;i< scope.model.length;i++) {
+                var selected = scope.model[i],
+                  label = selected[scope.labelField];
+
+                if(selected && selected.IsOther){
+                  label = selected[scope.otherNgModel];
+                }
+
+                labels.push(label);
               }
 
-              $container.text(labels.join(', '));
-
               // emit data
-              scope.$emit(broadcastkey, labels.join(', '));
+              var result = labels.join(', ');
+              scope.$emit(broadcastkey, result);
+              return result;
             },
 
             typecast = function typecast(value, type) {
@@ -87,7 +89,7 @@ angular.module('shalotelli-angular-multiselect', [])
 
                 case 'float':
                   value = parseFloat(value);
-                  
+
                   if (isNaN(value)) {
                     value = 0.0;
                   }
@@ -123,24 +125,11 @@ angular.module('shalotelli-angular-multiselect', [])
               return value;
             };
 
-        // pre select items & populate "other" value (if found) after initial digest cycle
-        $timeout(function() {
-          angular.forEach(scope.values, function (value, key) {
-            if (value.isSelected !== undefined && value.isSelected === true) {
-              selectedObjects.push(value);
-            } else if (scope.showOther && value[scope.valueField] == scope.otherDefaultValue) {
-              scope.values.splice(key, 1);
+        scope.displayOptions = displayOptions;
 
-              scope.other = value[scope.labelField];
-
-              scope.doOther();
-            }
-          });
-        }, 0);
-        
         // let things digest, then throw them up
         $timeout(function () {
-          scope.model = selectedObjects;
+          //scope.model = selectedObjects;
           displayOptions();
         }, 0);
 
@@ -169,7 +158,7 @@ angular.module('shalotelli-angular-multiselect', [])
             case 'blur':
             case 'keyup':
               angular.element('.multi-select-other').on(otherEvent, function () {
-                scope.doOther();
+                displayOptions();
               });
               break;
 
@@ -177,7 +166,7 @@ angular.module('shalotelli-angular-multiselect', [])
               angular.element('.multi-select-other').on('keydown keypress', function (e) {
                 if (e.which === 13) {
                   e.preventDefault();
-                  scope.doOther();
+                  displayOptions();
                 }
               });
               break;
@@ -215,23 +204,14 @@ angular.module('shalotelli-angular-multiselect', [])
         scope.selectAll = function selectAll() {
           var $el;
 
-          // highlight all un-highlighted elements
-          element.find('.multi-select-option-link').each(function () {
-            $el = angular.element(this);
-
-            if (! $el.hasClass('selected')) {
-              $el.addClass('selected');
-            }
-          });
-
           // add all to selected objects buffer
-          selectedObjects = scope.values;
+          angular.forEach(scope.values,function(item){
+              if(item.IsOther){
+                return;
+              }
 
-          // update model
-          scope.model = selectedObjects;
-
-          // if other field, populate value
-          scope.doOther();
+              item.isSelected = true;
+          });
 
           // output
           displayOptions();
@@ -240,17 +220,29 @@ angular.module('shalotelli-angular-multiselect', [])
         // deselect all options
         scope.selectNone = function selectNone() {
           // remove highlighting from all elements
-          element.find('.multi-select-option-link').each(function () {
-            angular.element(this).removeClass('selected');
-          });
-
           // reset data
-          scope.model = [];
-          selectedObjects = [];
-          scope.other = '';
-
+          if(scope.showOther){
+            clear();
+          }
           // output
           displayOptions();
+        };
+        function clear(){
+          angular.forEach(scope.values, function(item){
+              if(item.IsOther){
+                item[scope.otherNgModel] = '';
+              }
+              item.isSelected = false;
+          });
+        }
+
+        var syncModel = function(){
+          scope.model.length = 0;
+          angular.forEach(scope.values, function(item){
+            if(item.isSelected || (item.IsOther && item[scope.otherNgModel])){
+                scope.model.push(item);
+            }
+          });
         };
 
         // select/deselect option
@@ -258,90 +250,13 @@ angular.module('shalotelli-angular-multiselect', [])
           var $listOption = angular.element($event.target),
               values = [],
               i;
-
-          // pluck values
-          for (i=0;i<selectedObjects.length;i++) {
-            values.push(selectedObjects[i][scope.valueField]);
+          option.isSelected = !option.isSelected;
+          if(option.IsOther && !option.isSelected){
+            option[scope.optionNgModel] = '';
           }
-
-          // toggle option and highlighting
-          if (values.indexOf(option[scope.valueField]) === -1) {
-            selectedObjects.push(option);
-
-            $listOption.addClass('selected');
-          } else {
-
-            for (i=0;i<selectedObjects.length;i++) {
-              if(selectedObjects[i][scope.valueField] === option[scope.valueField]) {
-                selectedObjects.splice(i, 1);
-              }
-            }
-
-            $listOption.removeClass('selected');
-          }
-
-          // update model
-          scope.model = selectedObjects;
-
-          // output
           displayOptions();
         };
 
-        // "other" field
-        scope.doOther = function doOther() {
-          var otherObj = {},
-              value = '',
-
-              copyAndDisplay = function copyAndDisplay() {
-                // update model
-                scope.model = selectedObjects;
-
-                // output
-                displayOptions();
-              };
-
-          // if otherHistory, remove from selected options array
-          if (otherHistory.length > 0) {
-            for (var i=0;i<selectedObjects.length;i++) {
-              if(selectedObjects[i][scope.labelField] === otherHistory) {
-                selectedObjects.splice(i, 1);
-              }
-            }
-          }
-
-          // if new other value, push to array otherwise reset history buffer
-          if (scope.other !== undefined && scope.other.length > 0) {
-            attrs.$observe('otherDefaultValue', function (otherDefaultValue) {
-              scope.otherDefaultValue = otherDefaultValue;
-
-              // add label to otherObj
-              otherObj[scope.labelField] = scope.other;
-
-              // set value
-              value = (otherDefaultValue === undefined) ? scope.other : otherDefaultValue;
-
-              // typecast value
-              value = typecast(value, scope.otherDefaultValueType);
-              
-              // add value to otherObj
-              otherObj[scope.valueField] = value;
-
-              // flag as other
-              otherObj.isOther = true;
-
-              // add object
-              selectedObjects.push(otherObj);
-              
-              otherHistory = otherObj[scope.labelField];
-
-              copyAndDisplay();
-            });
-          } else {
-            otherHistory = '';
-            
-            copyAndDisplay();
-          }
-        };
       }
     };
   }]);
