@@ -65,7 +65,7 @@ angular.module('shalotelli-angular-multiselect', [])
               $container.text(labels.join(', '));
 
               // emit data
-              scope.$emit('multiSelectUpdate', labels.join(', '));
+              scope.$emit(broadcastkey, labels.join(', '));
             },
 
             typecast = function typecast(value, type) {
