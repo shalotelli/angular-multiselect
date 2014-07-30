@@ -138,9 +138,11 @@ angular.module('shalotelli-angular-multiselect', [])
           });
         }, 0);
         
-        // initial output
-        scope.model = selectedObjects;
-        displayOptions();
+        // let things digest, then throw them up
+        $timeout(function () {
+          scope.model = selectedObjects;
+          displayOptions();
+        }, 0);
 
         // show filters default value
         attrs.$observe('showFilters', function (showFilters) {
