@@ -56,7 +56,10 @@ angular.module('shalotelli-angular-multiselect', [])
                 labels.push(selectedObjects[i][scope.labelField]);
               }
 
-              $container.text(labels.sort().join(', '));
+              $container.text(labels.join(', '));
+
+              // emit data
+              scope.$emit('multiSelectUpdate', labels.join(', '));
             },
 
             typecast = function typecast(value, type) {
@@ -314,6 +317,9 @@ angular.module('shalotelli-angular-multiselect', [])
               
               // add value to otherObj
               otherObj[scope.valueField] = value;
+
+              // flag as other
+              otherObj.isOther = true;
 
               // add object
               selectedObjects.push(otherObj);
