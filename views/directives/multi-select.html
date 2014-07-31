@@ -1,6 +1,6 @@
 <div class="multi-select">
 
-  <textarea class="form-control multi-select-container" ng-focus="onFocus()" readonly>{{displayOptions()}}</textarea>
+  <textarea class="form-control multi-select-container" ng-focus="onFocus()" ng-bind="displayOptions()" readonly></textarea>
 
   <div class="multi-select-dropdown hide">
 
@@ -12,15 +12,15 @@
 
     <ul>
       <li class="multi-select-option" ng-repeat="value in values">
-        <a class="multi-select-option-link" href="javascript:;" ng-click="selectOption(value)" ng-class="{selected: isSelected(value)}"
-        >
+        <a class="multi-select-option-link" href="javascript:;" ng-click="selectOption(value)" ng-class="{selected: isSelected(value)}">
           {{value[labelField]}}
         </a><!-- ./multi-select-option-link -->
-        <div ng-if='value.IsOther' class="multi-select-other-container" ng-show="showOther">
-          <input type="text" class="form-control multi-select-other" placeholder="Other" ng-model="value[otherNgModel]">
+        <div class="multi-select-other-container" ng-if="showOther && isOther(value)">
+          <input type="text" class="form-control multi-select-other" placeholder="Other" ng-change="syncOther(value)" ng-model="value[otherNgModel]">
         </div><!-- ./multi-select-other-container -->
       </li><!-- ./multi-select-option -->
     </ul>
+
 
 
   </div><!-- ./multi-select-dropdown -->

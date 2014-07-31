@@ -1,3 +1,5 @@
+
+
 (function(ng){
 'use strict';
 
@@ -43,7 +45,8 @@ ng.module('shalotelli-angular-multiselect', [])
         showOther: '@',
         otherDefaultValueType: '@',
         isSelected: '&',
-        otherNgModel: '=',
+        otherNgModel: '@',
+        otherField: '@',
         otherEvent: '@',
         valueField: '@',
         labelField: '@',
@@ -71,7 +74,7 @@ ng.module('shalotelli-angular-multiselect', [])
                     label = selected[scope.labelField];
 
                 if(isOther(selected)){
-                  label = selected[scope.otherNgModel];
+                  label = selected[scope.otherNgModel] || 'Other';
                 }else{
                   //if label is null find it in the other list and use it
                   selectItem = findInSelect(selected);
@@ -88,7 +91,6 @@ ng.module('shalotelli-angular-multiselect', [])
               // emit data
               var result = labels.join(', ');
               scope.$emit(broadcastkey, result);
-              $log.info(result);
               return result;
             },
 
@@ -202,14 +204,12 @@ ng.module('shalotelli-angular-multiselect', [])
           scope.valueField = valueField || 'value';
         });
 
-        // value field default value
-        attrs.$observe('isOtherField', function (valueField) {
-          scope.isOtherField = valueField || 'isOther';
-        });
+        scope.otherField =   scope.otherField || 'isOther';
 
         function isOther(item){
-          return item[scope.isOtherField] === true;
+          return item[scope.otherField] === true;
         }
+        scope.isOther = isOther;
 
         // label field default value
         attrs.$observe('labelField', function (labelField) {
@@ -265,7 +265,14 @@ ng.module('shalotelli-angular-multiselect', [])
         var findItem = _find.curry(scope.model);
         var findInSelect = _find.curry(scope.values);
 
-
+        scope.syncOther = function(option){
+          var selected = findItem(option);
+          if(!selected){
+            //select it.
+            selected = scope.selectOption(option);
+          }
+          selected[scope.otherNgModel] = option[scope.otherNgModel];
+        };
 
         /*
         * returns whether or not its selected
@@ -274,9 +281,10 @@ ng.module('shalotelli-angular-multiselect', [])
         if(!attrs.isSelected){
           scope.isSelected = function(item){
             var found = findItem(item);
-            if(found && isOther(found)){
-              return item;
+            if(found){
+              return true;
             }
+            return false;
           };
         }
 
@@ -284,11 +292,13 @@ ng.module('shalotelli-angular-multiselect', [])
         scope.selectOption = function selectOption(option) {
           var item = findItem(option);
           if(item){
-            item = ng.copy(item);
-            scope.model.push(item);
+             scope.model.splice(scope.model.indexOf(item), 1);
           }else{
-            scope.model.pop(item);
+            item = ng.copy(option);
+            scope.model.push(item);
           }
+
+          return item;
         };
 
       }
