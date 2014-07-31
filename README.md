@@ -5,7 +5,7 @@ A multi select drop down list directive for AngularJS. This directive takes an a
 
 # Demo
 
-View the demo on Plunker: http://plnkr.co/edit/yueppRzbVLc9owx0NMZH?p=preview
+View the demo on Plunker: http://plnkr.co/edit/Auwocsu2wvahYFlmBkiU?p=preview
 
 # Installation
 
@@ -26,14 +26,17 @@ $ bower install shalotelli-angular-multiselect
 
 To use this directive, call the multi-select tag, including the model with the array of data objects, a reference to the output model and any display options (listed below).
 
-To prepopulate items, add a ```isSelected: true``` key-value pair to the necessary objects.
+To prepopulate items, add them to model.
 
 ```
 <multi-select
   values="values"
-  model="multiselect"
+  model="output"
   show-filters="true"
-  show-other="true">
+  other-field="isOther"
+  other-ng-model='other'
+  show-other="true"
+  >
 </multi-select>
 ```
 
@@ -42,13 +45,12 @@ To prepopulate items, add a ```isSelected: true``` key-value pair to the necessa
 | Option | Values | Description | Required | Default Value |
 |--------|--------|-------------|----------|---------------|
 | values | array/object | Values to load in to drop down | yes | - |
-| model | array | ngModel to save output to | yes | - |
+| model | array | ngModel to save output to, anything in here also shows up as selected | yes | - |
 | name | string | Unique identifier (useful if there is more than one multiselect on the page) | no | - |
 | show-filters | boolean | Show select all/select none | no | true |
 | show-other | boolean | Enable user to enter custom values | no | false |
-| other-default-value | string | Set a custom default value for the "other" option, useful when you want to identify new entries with a specific id etc | no | _label value_ |
-| other-default-value-type | string/integer/float/boolean | Typecast default other value | no | string |
-| other-event | keyup/blur/enter | Event used to execute "other" field interaction | no | keyup |
+| other-field | string |Name of the field that indicates this is the other option e.g. isOther | no | 'isOther' |
+| other-ng-model| string |field to save the other value to  | no | undefined |
 | value-field | string | Specify the key to use as the value field | no | value |
 | label-field | string | Specify the key to use as the label field | no | label |
 | template-path | string | Specify an alternate view template path for the directive | no | bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html |

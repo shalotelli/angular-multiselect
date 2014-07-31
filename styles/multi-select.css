@@ -76,8 +76,8 @@
   background-color: #428bca;
 }
 
-.multi-select > .multi-select-dropdown > .multi-select-other-container {
-  padding: 0 10px;
+.multi-select > .multi-select-dropdown > ul > li .multi-select-other-container {
+  padding: 10px 20px 0px 20px
 }
 
 .multi-select > .multi-select-dropdown > .multi-select-other-container > .multi-select-other {
