@@ -55,6 +55,7 @@ ng.module('shalotelli-angular-multiselect', [])
 
       link: function multiSelectLink(scope, element, attrs) {
         // dropdown element
+        scope.shared = {other : ''};
         var $dropdown = element.find('.multi-select-dropdown'),
             /*
               Display options in textbox
@@ -92,62 +93,9 @@ ng.module('shalotelli-angular-multiselect', [])
               var result = labels.join(', ');
               scope.$emit(broadcastkey, result);
               return result;
-            },
+        };
 
-            typecast = function typecast(value, type) {
-              switch (type.toLowerCase()) {
-                case 'string':
-                case 'str':
-                  value = String(value);
-                  break;
 
-                case 'integer':
-                case 'int':
-                  value = parseInt(value, 10);
-
-                  if (isNaN(value)) {
-                    value = 0;
-                  }
-
-                  break;
-
-                case 'float':
-                  value = parseFloat(value);
-
-                  if (isNaN(value)) {
-                    value = 0.0;
-                  }
-
-                  break;
-
-                case 'boolean':
-                case 'bool':
-                  switch (value.toLowerCase()) {
-                    case 'true':
-                    case '1':
-                      value = true;
-                      break;
-
-                    case 'false':
-                    case '0':
-                    case null:
-                      value = false;
-                      break;
-
-                    default:
-                      value = Boolean(value);
-                      break;
-                  }
-
-                  break;
-
-                default:
-                  value = String(value);
-                  break;
-              }
-
-              return value;
-            };
 
         scope.displayOptions = displayOptions;
 
@@ -248,6 +196,7 @@ ng.module('shalotelli-angular-multiselect', [])
           // remove highlighting from all elements
           // reset data
           scope.model.length = 0;
+          scope.shared.other = '';
         };
 
         var _find = function(collection, item){
@@ -271,7 +220,7 @@ ng.module('shalotelli-angular-multiselect', [])
             //select it.
             selected = scope.selectOption(option);
           }
-          selected[scope.otherNgModel] = option[scope.otherNgModel];
+          selected[scope.otherNgModel] = scope.shared.other;
         };
 
         /*
