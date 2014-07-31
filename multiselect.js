@@ -24,14 +24,29 @@ Function.method('curry', function () {
  * # Angular Multi Select directive
  */
 ng.module('shalotelli-angular-multiselect', [])
-  .directive('multiSelect', [ '$timeout', '$log',  function ($timeout, $log) {
+  .provider('multiSelectConfig', function MultiSelectConfig() {
+    var defaults = {
+      templatePath: 'bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html',
+      otherField: 'isOther',
+      otherNgModel: 'other'
+    };
+
+    this.setDefaults= function(settings) {
+      angular.extend(defaults, settings || {});
+    };
+
+    this.$get = [function() {
+      return defaults;
+    }];
+  })
+  .directive('multiSelect', [ 'multiSelectConfig', '$timeout', '$log',  function (multiSelectConfig, $timeout, $log) {
     return {
       templateUrl: function (element, attrs) {
         if (attrs.templatePath !== undefined) {
           return attrs.templatePath;
         }
 
-        return 'bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html';
+        return multiSelectConfig.templatePath;
       },
 
       restrict: 'E',
@@ -74,7 +89,7 @@ ng.module('shalotelli-angular-multiselect', [])
                     label = selected[scope.labelField];
 
                 if(isOther(selected)){
-                  label = selected[scope.otherNgModel] || 'Other';
+                  label = selected[scope.otherNgModel] ||  multiSelectConfig.otherNgModel;
                 }else{
                   //if label is null find it in the other list and use it
                   selectItem = findInSelect(selected);
@@ -164,7 +179,7 @@ ng.module('shalotelli-angular-multiselect', [])
         });
 
         attrs.$observe('otherField', function (otherField) {
-          scope.otherField = otherField || 'isOther';
+          scope.otherField = otherField || multiSelectConfig.otherField;
         });
 
         function isOther(item){
