@@ -259,11 +259,21 @@ ng.module('shalotelli-angular-multiselect', [])
 
         scope.syncOther = function(option){
           var selected = findItem(option);
-          if(!selected){
-            //select it.
-            selected = scope.selectOption(option);
+          if(selected){
+            if(!scope.shared.other){
+              //toggle it off
+              selected = scope.selectOption(option);
+            }
           }
-          selected[scope.otherNgModel] = scope.shared.other;
+          else{
+            if(scope.shared.other){
+              //only select it if there is text
+              selected = scope.selectOption(option);
+            }
+          }
+          if(selected){
+              selected[scope.otherNgModel] = scope.shared.other;
+          }
         };
 
         /*
