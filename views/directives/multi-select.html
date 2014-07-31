@@ -18,7 +18,6 @@
         <div class="multi-select-other-container" ng-if="showOther && isOther(value)">
           <input type="text" class="form-control multi-select-other"
             placeholder="Other"
-            ng-click="selectOption(value)"
             ng-change="syncOther(value)"
             ng-keypress="close($event)"
             ng-model="shared.other">
