@@ -1,6 +1,20 @@
 (function(ng){
 'use strict';
 
+Function.prototype.method = function (name, func) {
+    this.prototype[name] = func;
+    return this;
+};
+
+Function.method('curry', function () {
+    var slice = Array.prototype.slice,
+        args = slice.apply(arguments),
+        that = this;
+        return function () {
+          return that.apply(null, args.concat(slice.apply(arguments)));
+        };
+});
+
 /**
  * @ngdoc directive
  * @name multiselectApp.directive:multiSelect
@@ -8,7 +22,7 @@
  * # Angular Multi Select directive
  */
 ng.module('shalotelli-angular-multiselect', [])
-  .directive('multiSelect', [ '$timeout', function ($timeout) {
+  .directive('multiSelect', [ '$timeout', '$log',  function ($timeout, $log) {
     return {
       templateUrl: function (element, attrs) {
         if (attrs.templatePath !== undefined) {
@@ -28,6 +42,7 @@ ng.module('shalotelli-angular-multiselect', [])
         showFilters: '@',
         showOther: '@',
         otherDefaultValueType: '@',
+        isSelected: '&',
         otherNgModel: '=',
         otherEvent: '@',
         valueField: '@',
@@ -50,21 +65,30 @@ ng.module('shalotelli-angular-multiselect', [])
               }
 
               //this is suboptimal (not a lot of time to fix this)
-              syncModel();
               for (var i=0;i< scope.model.length;i++) {
                 var selected = scope.model[i],
-                  label = selected[scope.labelField];
+                    selectItem,
+                    label = selected[scope.labelField];
 
-                if(selected && selected.IsOther){
+                if(isOther(selected)){
                   label = selected[scope.otherNgModel];
+                }else{
+                  //if label is null find it in the other list and use it
+                  selectItem = findInSelect(selected);
+                  label = selectItem &&  selectItem[scope.labelField];
                 }
 
+                if(!label){
+                  $log.error('Failed to find label for ',selected);
+                  continue;
+                }
                 labels.push(label);
               }
 
               // emit data
               var result = labels.join(', ');
               scope.$emit(broadcastkey, result);
+              $log.info(result);
               return result;
             },
 
@@ -127,7 +151,6 @@ ng.module('shalotelli-angular-multiselect', [])
 
         // let things digest, then throw them up
         $timeout(function () {
-          //scope.model = selectedObjects;
           displayOptions();
         }, 0);
 
@@ -179,6 +202,15 @@ ng.module('shalotelli-angular-multiselect', [])
           scope.valueField = valueField || 'value';
         });
 
+        // value field default value
+        attrs.$observe('isOtherField', function (valueField) {
+          scope.isOtherField = valueField || 'isOther';
+        });
+
+        function isOther(item){
+          return item[scope.isOtherField] === true;
+        }
+
         // label field default value
         attrs.$observe('labelField', function (labelField) {
           scope.labelField = labelField || 'label';
@@ -200,74 +232,63 @@ ng.module('shalotelli-angular-multiselect', [])
 
         // select all options
         scope.selectAll = function selectAll() {
-          var $el;
-
-          // add all to selected objects buffer
+          //clear all first
+          scope.model.length = 0;
           ng.forEach(scope.values,function(item){
-              if(item.IsOther){
-                return;
-              }
-
-              item.isSelected = true;
-          });
-
-          // output
-          displayOptions();
-        };
-        /*
-        * returns whether or not its selected
-        * todo we need to fix how we set is other.  the second half of this
-        * is to default the select to checked when input changes but they dont click it
-        */
-        scope.isSelected = function(item){
-            if(item.isSelected || (item.IsOther && item[scope.otherNgModel])){
-              return true;
+            if(isOther(item)){
+              return;
             }
-            return false;
+            scope.selectOption(item);
+          });
         };
+
 
         // deselect all options
         scope.selectNone = function selectNone() {
           // remove highlighting from all elements
           // reset data
-          if(scope.showOther){
-            clear();
-          }
-          // output
-          displayOptions();
+          scope.model.length = 0;
         };
 
-        function clear(){
-          ng.forEach(scope.values, function(item){
-              if(item.IsOther){
-                item[scope.otherNgModel] = '';
-              }
-              item.isSelected = false;
-          });
-        }
+        var _find = function(collection, item){
+          collection  = collection ||[];
+
+          var selected;
+          for (var i=0;i< collection.length;i++) {
+            selected= collection[i];
+            if(item[scope.valueField] === selected[scope.valueField]){
+              return selected;
+            }
+          }
+        };
+
+        var findItem = _find.curry(scope.model);
+        var findInSelect = _find.curry(scope.values);
+
+
 
         /*
-        * syncs things that are selected to the model
-        * todo we could move this to the selectOption
-        * we would actually push/pop to the array
-        * versus use the original select
+        * returns whether or not its selected
+        * is to default the select to checked when input changes but they dont click it
         */
-        var syncModel = function(){
-          scope.model.length = 0;
-          ng.forEach(scope.values, function(item){
-            if(scope.isSelected(item)){
-                scope.model.push(item);
+        if(!attrs.isSelected){
+          scope.isSelected = function(item){
+            var found = findItem(item);
+            if(found && isOther(found)){
+              return item;
             }
-          });
-        };
+          };
+        }
 
         // select/deselect option
-        scope.selectOption = function selectOption($event, option) {
-          option.isSelected = !option.isSelected;
-          if(option.IsOther && !option.isSelected){
-            option[scope.optionNgModel] = '';
+        scope.selectOption = function selectOption(option) {
+          var item = findItem(option);
+          if(item){
+            item = ng.copy(item);
+            scope.model.push(item);
+          }else{
+            scope.model.pop(item);
           }
-          displayOptions();
         };
 
       }
