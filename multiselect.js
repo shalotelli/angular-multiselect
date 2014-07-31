@@ -99,7 +99,7 @@ ng.module('shalotelli-angular-multiselect', [])
         scope.displayOptions = displayOptions;
 
         var watch = scope.$watch('model', function(newVal, oldVal){
-          if(newVal && newVal.length){
+          if(ng.isDefined(newVal)){
             if(newVal.length){
               //if we have something display
               //first time intiialized go ahead an sync other
