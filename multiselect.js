@@ -55,7 +55,6 @@ ng.module('shalotelli-angular-multiselect', [])
 
       link: function multiSelectLink(scope, element, attrs) {
         // dropdown element
-        scope.shared = {other : ''};
         var $dropdown = element.find('.multi-select-dropdown'),
             /*
               Display options in textbox
@@ -99,10 +98,22 @@ ng.module('shalotelli-angular-multiselect', [])
 
         scope.displayOptions = displayOptions;
 
-        // let things digest, then throw them up
-        $timeout(function () {
-          displayOptions();
-        }, 0);
+        var watch = scope.$watch('model', function(newVal, oldVal){
+          if(newVal && newVal.length){
+            if(newVal.length){
+              //if we have something display
+              //first time intiialized go ahead an sync other
+              var other = findOther();
+              if(other){
+                scope.shared.other = other[scope.otherNgModel] || '';
+              }
+
+            }
+            //kill watch
+            watch();
+          }
+        });
+
 
         // show filters default value
         attrs.$observe('showFilters', function (showFilters) {
@@ -196,7 +207,17 @@ ng.module('shalotelli-angular-multiselect', [])
           // remove highlighting from all elements
           // reset data
           scope.model.length = 0;
-          scope.shared.other = '';
+          clearOther();
+        };
+
+        var findOther = function(){
+          var selected;
+          for (var i=0;i< scope.model.length;i++) {
+            selected= scope.model[i];
+            if(isOther(selected)){
+              return selected;
+            }
+          }
         };
 
         var _find = function(collection, item){
@@ -213,6 +234,11 @@ ng.module('shalotelli-angular-multiselect', [])
 
         var findItem = _find.curry(scope.model);
         var findInSelect = _find.curry(scope.values);
+
+        scope.shared = {other : ''};
+        function clearOther() {
+          scope.shared = {other : ''};
+        }
 
         scope.syncOther = function(option){
           var selected = findItem(option);
@@ -242,6 +268,9 @@ ng.module('shalotelli-angular-multiselect', [])
           var item = findItem(option);
           if(item){
              scope.model.splice(scope.model.indexOf(item), 1);
+             if(isOther(item)){
+               clearOther();
+             }
           }else{
             item = ng.copy(option);
             scope.model.push(item);
