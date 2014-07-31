@@ -16,7 +16,10 @@
           {{value[labelField]}}
         </a><!-- ./multi-select-option-link -->
         <div class="multi-select-other-container" ng-if="showOther && isOther(value)">
-          <input type="text" class="form-control multi-select-other" placeholder="Other" ng-change="syncOther(value)" ng-model="shared.other">
+          <input type="text" class="form-control multi-select-other"
+            placeholder="Other"
+            ng-click="selectOption(value)"
+            ng-change="syncOther(value)" ng-model="shared.other">
         </div><!-- ./multi-select-other-container -->
       </li><!-- ./multi-select-option -->
     </ul>

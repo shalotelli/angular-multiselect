@@ -205,6 +205,15 @@ ng.module('shalotelli-angular-multiselect', [])
           }
         });
 
+        scope.close = function($event){
+          //this should be migrated to use angualar
+          if($event.which === 13){
+            $event.preventDefault();
+            $dropdown.removeClass('show').addClass('hide');
+          }
+        };
+
+
         // show dropdown on focus
         scope.onFocus = function onFocus() {
           // close all other dropdowns on the page before showing the selected one
