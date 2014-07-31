@@ -163,7 +163,9 @@ ng.module('shalotelli-angular-multiselect', [])
           scope.valueField = valueField || 'value';
         });
 
-        scope.otherField =   scope.otherField || 'isOther';
+        attrs.$observe('otherField', function (otherField) {
+          scope.otherField = otherField || 'isOther';
+        });
 
         function isOther(item){
           return item[scope.otherField] === true;
