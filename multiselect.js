@@ -188,9 +188,15 @@ ng.module('shalotelli-angular-multiselect', [])
         scope.isOther = isOther;
 
         // label field default value
+        attrs.$observe('otherNgModel', function (otherNgModel) {
+          scope.otherNgModel = otherNgModel || multiSelectConfig.otherNgModel;
+        });
+
+        // label field default value
         attrs.$observe('labelField', function (labelField) {
           scope.labelField = labelField || 'label';
         });
+
 
         // hide dropdown when clicking away
         ng.element(document).on('click', function (e) {
