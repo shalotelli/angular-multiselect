@@ -67,7 +67,7 @@ ng.module('shalotelli-angular-multiselect', [])
         valueField: '@',
         labelField: '@',
         templatePath: '@',
-        closeOnSelect: '&'
+        closeOnSelect: '@'
       },
 
       link: function multiSelectLink (scope, element, attrs) {
