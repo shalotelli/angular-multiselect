@@ -59,7 +59,6 @@ ng.module('shalotelli-angular-multiselect', [])
         name: '@',
         showFilters: '@',
         showOther: '@',
-        otherDefaultValueType: '@',
         isSelected: '&',
         otherNgModel: '@',
         otherField: '@',
@@ -138,11 +137,6 @@ ng.module('shalotelli-angular-multiselect', [])
         // show other default value
         attrs.$observe('showOther', function (showOther) {
           scope.showOther = showOther || false;
-        });
-
-        // other default value type value
-        attrs.$observe('otherDefaultValueType', function (otherDefaultValueType) {
-          scope.otherDefaultValueType = otherDefaultValueType || 'string';
         });
 
         // other box event binding

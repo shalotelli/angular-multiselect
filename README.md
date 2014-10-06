@@ -49,8 +49,11 @@ To prepopulate items, add them to model.
 | name | string | Unique identifier (useful if there is more than one multiselect on the page) | no | - |
 | show-filters | boolean | Show select all/select none | no | true |
 | show-other | boolean | Enable user to enter custom values | no | false |
-| other-field | string |Name of the field that indicates this is the other option e.g. isOther | no | 'isOther' |
+| is-selected | boolean | Default the select to checked when input changes but they dont click it | no | false |
 | other-ng-model| string |field to save the other value to  | no | undefined |
+| other-field | string | Name of the field that indicates this is the other option e.g. isOther | no | 'isOther' |
+| other-event | string | Determine when to show an entered "other" value | no | 'keyup' |
 | value-field | string | Specify the key to use as the value field | no | value |
 | label-field | string | Specify the key to use as the label field | no | label |
 | template-path | string | Specify an alternate view template path for the directive | no | bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html |
+| close-on-select | boolean | Should the dropdown close after each selection | no | false |
