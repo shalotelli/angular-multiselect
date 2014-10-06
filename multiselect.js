@@ -24,18 +24,19 @@ Function.method('curry', function () {
  * # Angular Multi Select directive
  */
 ng.module('shalotelli-angular-multiselect', [])
-  .provider('multiSelectConfig', function MultiSelectConfig() {
+  .provider('multiSelectConfig', function MultiSelectConfig () {
     var defaults = {
       templatePath: 'bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html',
       otherField: 'isOther',
-      otherNgModel: 'other'
+      otherNgModel: 'other',
+      closeOnSelect: false
     };
 
-    this.setDefaults= function(settings) {
+    this.setDefaults = function (settings) {
       angular.extend(defaults, settings || {});
     };
 
-    this.$get = [function() {
+    this.$get = [ function () {
       return defaults;
     }];
   })
@@ -65,16 +66,17 @@ ng.module('shalotelli-angular-multiselect', [])
         otherEvent: '@',
         valueField: '@',
         labelField: '@',
-        templatePath: '@'
+        templatePath: '@',
+        closeOnSelect: '&'
       },
 
-      link: function multiSelectLink(scope, element, attrs) {
+      link: function multiSelectLink (scope, element, attrs) {
         // dropdown element
         var $dropdown = element.find('.multi-select-dropdown'),
             /*
               Display options in textbox
             */
-            displayOptions = function displayOptions() {
+            displayOptions = function displayOptions () {
               var labels = [],
                   broadcastkey = 'multiSelectUpdate';
 
@@ -82,21 +84,21 @@ ng.module('shalotelli-angular-multiselect', [])
                 broadcastkey += '_' + attrs.name;
               }
 
-              //this is suboptimal (not a lot of time to fix this)
-              for (var i=0;i< scope.model.length;i++) {
+              // this is suboptimal (not a lot of time to fix this)
+              for (var i=0;i<scope.model.length;i++) {
                 var selected = scope.model[i],
                     selectItem,
                     label = selected[scope.labelField];
 
-                if(isOther(selected)){
+                if (isOther(selected)) {
                   label = selected[scope.otherNgModel] ||  multiSelectConfig.otherNgModel;
-                }else{
-                  //if label is null find it in the other list and use it
+                } else {
+                  // if label is null find it in the other list and use it
                   selectItem = findInSelect(selected);
                   label = selectItem &&  selectItem[scope.labelField];
                 }
 
-                if(!label){
+                if (!label) {
                   $log.error('Failed to find label for ',selected);
                   continue;
                 }
@@ -109,21 +111,19 @@ ng.module('shalotelli-angular-multiselect', [])
               return result;
         };
 
-
-
         scope.displayOptions = displayOptions;
 
-        var watch = scope.$watch('model', function(newVal, oldVal){
-          if(ng.isDefined(newVal)){
-            if(newVal.length){
+        var watch = scope.$watch('model', function (newVal, oldVal) {
+          if (ng.isDefined(newVal)) {
+            if (newVal.length) {
               //if we have something display
               //first time intiialized go ahead an sync other
               var other = findOther();
-              if(other){
+              if (other) {
                 scope.shared.other = other[scope.otherNgModel] || '';
               }
-
             }
+
             //kill watch
             watch();
           }
@@ -182,7 +182,11 @@ ng.module('shalotelli-angular-multiselect', [])
           scope.otherField = otherField || multiSelectConfig.otherField;
         });
 
-        function isOther(item){
+        attrs.$observe('closeOnSelect', function (closeOnSelect) {
+          scope.closeOnSelect = (closeOnSelect === 'true') || multiSelectConfig.closeOnSelect;
+        });
+
+        function isOther (item){
           return item[scope.otherField] === true;
         }
         scope.isOther = isOther;
@@ -205,9 +209,9 @@ ng.module('shalotelli-angular-multiselect', [])
           }
         });
 
-        scope.close = function($event){
+        scope.close = function ($event) {
           //this should be migrated to use angualar
-          if($event.which === 13){
+          if ($event.which === 13) {
             $event.preventDefault();
             $dropdown.removeClass('show').addClass('hide');
           }
@@ -215,18 +219,18 @@ ng.module('shalotelli-angular-multiselect', [])
 
 
         // show dropdown on focus
-        scope.onFocus = function onFocus() {
+        scope.onFocus = function onFocus () {
           // close all other dropdowns on the page before showing the selected one
           ng.element('body').find('.multi-select-dropdown').removeClass('show').addClass('hide');
           $dropdown.removeClass('hide').addClass('show');
         };
 
         // select all options
-        scope.selectAll = function selectAll() {
+        scope.selectAll = function selectAll () {
           //clear all first
           scope.model.length = 0;
-          ng.forEach(scope.values,function(item){
-            if(isOther(item)){
+          ng.forEach(scope.values, function (item) {
+            if (isOther(item)) {
               return;
             }
             scope.selectOption(item);
@@ -235,30 +239,31 @@ ng.module('shalotelli-angular-multiselect', [])
 
 
         // deselect all options
-        scope.selectNone = function selectNone() {
+        scope.selectNone = function selectNone () {
           // remove highlighting from all elements
           // reset data
           scope.model.length = 0;
           clearOther();
         };
 
-        var findOther = function(){
+        var findOther = function () {
           var selected;
           for (var i=0;i< scope.model.length;i++) {
             selected= scope.model[i];
-            if(isOther(selected)){
+            if (isOther(selected)) {
               return selected;
             }
           }
         };
 
-        var _find = function(collection, item){
-          collection  = collection ||[];
-
+        var _find = function (collection, item) {
           var selected;
+
+          collection  = collection || [];
+
           for (var i=0;i< collection.length;i++) {
             selected= collection[i];
-            if(item[scope.valueField] === selected[scope.valueField]){
+            if (item[scope.valueField] === selected[scope.valueField]) {
               return selected;
             }
           }
@@ -267,27 +272,29 @@ ng.module('shalotelli-angular-multiselect', [])
         var findItem = _find.curry(scope.model);
         var findInSelect = _find.curry(scope.values);
 
-        scope.shared = {other : ''};
-        function clearOther() {
-          scope.shared = {other : ''};
+        scope.shared = { other : '' };
+
+        function clearOther () {
+          scope.shared = { other : '' };
         }
 
-        scope.syncOther = function(option){
+        scope.syncOther = function (option) {
           var selected = findItem(option);
-          if(selected){
-            if(!scope.shared.other){
-              //toggle it off
+
+          if (selected) {
+            //toggle it off
+            if (!scope.shared.other) {
               selected = scope.selectOption(option);
             }
-          }
-          else{
-            if(scope.shared.other){
+          } else {
+            if (scope.shared.other) {
               //only select it if there is text
               selected = scope.selectOption(option);
             }
           }
-          if(selected){
-              selected[scope.otherNgModel] = scope.shared.other;
+
+          if (selected) {
+            selected[scope.otherNgModel] = scope.shared.other;
           }
         };
 
@@ -296,11 +303,13 @@ ng.module('shalotelli-angular-multiselect', [])
         * is to default the select to checked when input changes but they dont click it
         */
         if (!attrs.isSelected) {
-          scope.isSelected = function(item){
+          scope.isSelected = function (item) {
             var found = findItem(item);
-            if(found){
+
+            if (found) {
               return true;
             }
+
             return false;
           };
         }
@@ -311,21 +320,30 @@ ng.module('shalotelli-angular-multiselect', [])
         };
 
         // select/deselect option
-        scope.selectOption = function selectOption(option) {
+        scope.selectOption = function selectOption (option) {
           var item = findItem(option);
-          if(item){
+
+          if (item) {
              scope.model.splice(scope.model.indexOf(item), 1);
-             if(isOther(item)){
+
+             if (isOther(item)) {
                clearOther();
              }
-          }else{
+          } else {
             item = ng.copy(option);
             scope.model.push(item);
           }
 
+          // close dropdown?
+          if (scope.closeOnSelect) {
+            console.log('should close!');
+            $dropdown.removeClass('show').addClass('hide');
+          } else {
+            console.log('wont close');
+          }
+
           return item;
         };
-
       }
     };
   }]);
