@@ -295,7 +295,7 @@ ng.module('shalotelli-angular-multiselect', [])
         * returns whether or not its selected
         * is to default the select to checked when input changes but they dont click it
         */
-        if(!attrs.isSelected){
+        if (!attrs.isSelected) {
           scope.isSelected = function(item){
             var found = findItem(item);
             if(found){
@@ -304,6 +304,11 @@ ng.module('shalotelli-angular-multiselect', [])
             return false;
           };
         }
+
+        scope.clickCheckbox = function ($event, value) {
+          $event.stopPropagation();
+          scope.selectOption(value);
+        };
 
         // select/deselect option
         scope.selectOption = function selectOption(option) {
