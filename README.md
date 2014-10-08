@@ -5,7 +5,7 @@ A multi select drop down list directive for AngularJS. This directive takes an a
 
 # Demo
 
-View the demo on Plunker: http://plnkr.co/edit/Auwocsu2wvahYFlmBkiU?p=preview
+View the demo on Plunker: http://plnkr.co/edit/7LHuN1t5eHe9iNyTw7MV?p=preview
 
 # Installation
 
