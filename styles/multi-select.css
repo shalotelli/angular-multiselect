@@ -20,7 +20,7 @@
   margin-top: 3px;
   padding: 10px 0 0 0;
   min-width: 250px;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .multi-select > .multi-select-dropdown input[type=checkbox] {
