@@ -47,6 +47,8 @@
   padding: 0;
   margin-top: 5px;
   list-style-type: none;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .multi-select > .multi-select-dropdown > ul > li {
