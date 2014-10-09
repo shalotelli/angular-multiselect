@@ -1,0 +1,10 @@
+{
+  "name": "angular-multiselect",
+  "devDependencies": {
+    "karma": "~0.10",
+    "karma-jasmine": "*",
+    "karma-chrome-launcher": "*",
+    "karma-firefox-launcher": "*",
+    "karma-ng-html2js-preprocessor": "*"
+  }
+}
