@@ -374,8 +374,6 @@
                 return true;
               }
 
-              scope.allSelected = scope.areAllSelected();
-
               return false;
             };
           }
@@ -418,6 +416,10 @@
 
             return item;
           };
+
+          if (scope.model.length > 0) {
+            scope.allSelected = scope.areAllSelected();
+          }
         }
       };
     }]);
