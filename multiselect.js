@@ -283,7 +283,7 @@
             areAllSelected = (values.length === model.length);
 
             // if some are selected, put checkbox in indeterminate mode
-            if (!(areAllSelected) && model.length > 0) {
+            if (! (areAllSelected) && model.length > 0) {
               $checkbox.prop('indeterminate', true);
             } else {
               $checkbox.prop('indeterminate', false);
@@ -349,7 +349,7 @@
 
             if (selected) {
               //toggle it off
-              if (!scope.shared.other) {
+              if (! scope.shared.other) {
                 selected = scope.selectOption(option);
               }
             } else {
@@ -366,13 +366,15 @@
 
           // returns whether or not its selected
           // is to default the select to checked when input changes but they dont click it
-          if (!attrs.isSelected) {
+          if (! attrs.isSelected) {
             scope.isSelected = function (item) {
               var found = findItem(item);
 
               if (found) {
                 return true;
               }
+
+              scope.allSelected = scope.areAllSelected();
 
               return false;
             };
@@ -416,8 +418,6 @@
 
             return item;
           };
-
-          // scope.allSelected = scope.areAllSelected();
         }
       };
     }]);
