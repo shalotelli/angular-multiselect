@@ -269,13 +269,13 @@
                 $checkbox = $dropdown.find('.multi-select-select-all-checkbox');
 
             for (var i=0;i<values.length;i++) {
-              if (values[i].isOther && values[i].isOther === true) {
+              if (isOther(values[i])) {
                 values.splice(i, 1);
               }
             }
 
             for (var j=0;j<model.length;j++) {
-              if (model[j].isOther && model[j].isOther === true) {
+              if (isOther(model[j])) {
                 model.splice(j, 1);
               }
             }
