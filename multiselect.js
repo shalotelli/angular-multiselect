@@ -420,6 +420,20 @@
           if (scope.model.length > 0) {
             scope.allSelected = scope.areAllSelected();
           }
+
+          scope.$on('multiSelectClearAll', function () {
+            scope.model.length = 0;
+            scope.allSelected = scope.areAllSelected();
+            clearOther();
+          });
+
+          scope.$on('multiSelectClear', function (event, name) {
+            if (scope.name && scope.name === name) {
+              scope.model.length = 0;
+              scope.allSelected = scope.areAllSelected();
+              clearOther();
+            }
+          });
         }
       };
     }]);
