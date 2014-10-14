@@ -421,17 +421,29 @@
             scope.allSelected = scope.areAllSelected();
           }
 
+          // useful if there's more than one multi select on a page
           scope.$on('multiSelectClearAll', function () {
             scope.model.length = 0;
             scope.allSelected = scope.areAllSelected();
             clearOther();
           });
 
+          // clear multi select, reference by name
           scope.$on('multiSelectClear', function (event, name) {
             if (scope.name && scope.name === name) {
               scope.model.length = 0;
               scope.allSelected = scope.areAllSelected();
               clearOther();
+            }
+          });
+
+          scope.$on('multiSelectUpdateAll', function () {
+            scope.displayOptions();
+          });
+
+          scope.$on('multiSelectUpdate', function (event, name) {
+            if (scope.name && scope.name === name) {
+              scope.displayOptions();
             }
           });
         }
