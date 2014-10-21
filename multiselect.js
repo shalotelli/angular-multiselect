@@ -119,6 +119,8 @@
 
           scope.displayOptions = displayOptions;
 
+          scope.isOptionSelected = isOptionSelected;
+
           var watch = scope.$watch('model', function (newVal, oldVal) {
             if (ng.isDefined(newVal)) {
               if (newVal.length) {
@@ -263,6 +265,7 @@
             } else {
               scope.allSelected = scope.areAllSelected();
               clearOther();
+              checkSelectedOptions();
             }
           };
 
@@ -407,7 +410,7 @@
 
             if (item) {
                scope.model.splice(scope.model.indexOf(item), 1);
-               scope.selectedOptions.splice(scope.selectedOptions.indexOf(item[scope.valueField]), 1);
+               delete scope.selectedOptions[item[scope.valueField]];
 
                if (isOther(item)) {
                  clearOther();
@@ -435,6 +438,8 @@
           // useful if there's more than one multi select on a page
           scope.$on('multiSelectClearAll', function () {
             scope.model.length = 0;
+
+            checkSelectedOptions();
             scope.allSelected = scope.areAllSelected();
             clearOther();
           });
@@ -443,13 +448,17 @@
           scope.$on('multiSelectClear', function (event, name) {
             if (scope.name && scope.name === name) {
               scope.model.length = 0;
+
+              checkSelectedOptions();
               scope.allSelected = scope.areAllSelected();
               clearOther();
             }
           });
 
           scope.$on('multiSelectRefreshAll', function () {
-            scope.checkSelectedOptions();
+            $timeout(function () {
+              checkSelectedOptions();
+            });
           });
 
           scope.$on('multiSelectRefresh', function (event, name, options) {
@@ -459,7 +468,9 @@
                 scope.model = options;
               }
 
-              checkSelectedOptions();
+              $timeout(function () {
+                checkSelectedOptions();
+              });
             }
           });
         }
