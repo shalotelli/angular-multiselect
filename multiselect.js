@@ -102,6 +102,19 @@
                 scope.$emit(broadcastkey, label);
 
                 return label;
+              },
+
+              // check all selected options
+              checkSelectedOptions = function () {
+                scope.selectedOptions = [];
+
+                ng.forEach(scope.model, function (option) {
+                  scope.selectedOptions[option[scope.valueField]] = true;
+                });
+              },
+
+              isOptionSelected = function (option) {
+                return scope.selectedOptions[option[scope.valueField]];
               };
 
           scope.displayOptions = displayOptions;
@@ -112,6 +125,7 @@
                 // if we have something display
                 // first time intiialized go ahead an sync other
                 var other = findOther();
+
                 if (other) {
                   scope.shared.other = other[scope.otherNgModel] || '';
                 }
@@ -121,6 +135,9 @@
               watch();
             }
           });
+
+          // array of selected options
+          scope.selectedOptions = [];
 
           // show filters default value
           attrs.$observe('showFilters', function (showFilters) {
@@ -367,15 +384,7 @@
           // returns whether or not its selected
           // is to default the select to checked when input changes but they dont click it
           if (! attrs.isSelected) {
-            scope.isSelected = function (item) {
-              var found = findItem(item);
-
-              if (found) {
-                return true;
-              }
-
-              return false;
-            };
+            checkSelectedOptions();
           }
 
           /**
@@ -398,6 +407,7 @@
 
             if (item) {
                scope.model.splice(scope.model.indexOf(item), 1);
+               scope.selectedOptions.splice(scope.selectedOptions.indexOf(item[scope.valueField]), 1);
 
                if (isOther(item)) {
                  clearOther();
@@ -405,6 +415,7 @@
             } else {
               item = ng.copy(option);
               scope.model.push(item);
+              scope.selectedOptions[item[scope.valueField]] = true;
             }
 
             // close dropdown?
@@ -437,13 +448,18 @@
             }
           });
 
-          scope.$on('multiSelectUpdateAll', function () {
-            scope.displayOptions();
+          scope.$on('multiSelectRefreshAll', function () {
+            scope.checkSelectedOptions();
           });
 
-          scope.$on('multiSelectUpdate', function (event, name) {
+          scope.$on('multiSelectRefresh', function (event, name, options) {
             if (scope.name && scope.name === name) {
-              scope.displayOptions();
+              // check if options are passed
+              if (options !== undefined) {
+                scope.model = options;
+              }
+
+              checkSelectedOptions();
             }
           });
         }
