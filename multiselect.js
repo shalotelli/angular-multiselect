@@ -439,9 +439,11 @@
           scope.$on('multiSelectClearAll', function () {
             scope.model.length = 0;
 
-            checkSelectedOptions();
-            scope.allSelected = scope.areAllSelected();
-            clearOther();
+            $timeout(function () {
+              checkSelectedOptions();
+              scope.allSelected = scope.areAllSelected();
+              clearOther();
+            });
           });
 
           // clear multi select, reference by name
@@ -449,9 +451,11 @@
             if (scope.name && scope.name === name) {
               scope.model.length = 0;
 
-              checkSelectedOptions();
-              scope.allSelected = scope.areAllSelected();
-              clearOther();
+              $timeout(function () {
+                checkSelectedOptions();
+                scope.allSelected = scope.areAllSelected();
+                clearOther();
+              });
             }
           });
 
