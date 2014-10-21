@@ -329,11 +329,11 @@
           };
 
           /**
-           * Helper to find object in array
-           * @param  {Array} collection  Haystack
-           * @param  {Object} item       Needle
-           * @return {Object}            Found object
-           */
+          * Helper to find object in array
+          * @param  {Array} collection  Haystack
+          * @param  {Object} item      Needle
+          * @return {Object}            Found object
+          */
           var _find = function (collection, item) {
             var selected;
 
@@ -348,8 +348,13 @@
             }
           };
 
-          var findItem = _find.curry(scope.model);
-          var findInSelect = _find.curry(scope.values);
+          var findItem = function(item) {
+            return _find(scope.model, item);
+          };
+
+          var findInSelect = function(item) {
+            return _find(scope.values, item);
+          };
 
           scope.shared = { other : '' };
 
