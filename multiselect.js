@@ -69,7 +69,8 @@
           valueField: '@',
           labelField: '@',
           templatePath: '@',
-          closeOnSelect: '@'
+          closeOnSelect: '@',
+          emitOnSelect: '@'
         },
 
         link: function multiSelectLink (scope, element, attrs) {
@@ -190,6 +191,10 @@
 
           attrs.$observe('closeOnSelect', function (closeOnSelect) {
             scope.closeOnSelect = (closeOnSelect === 'true') || multiSelectConfig.closeOnSelect;
+          });
+
+          attrs.$observe('emitOnSelect', function (emitOnSelect) {
+            scope.emitOnSelect = (emitOnSelect === 'true') || multiSelectConfig.emitOnSelect;
           });
 
           /**
@@ -411,7 +416,8 @@
            * @return {Object}        Item object
            */
           scope.selectOption = function selectOption (option) {
-            var item = findItem(option);
+            var item = findItem(option),
+                broadcastkey = 'multiSelectOption';
 
             if (item) {
                scope.model.splice(scope.model.indexOf(item), 1);
@@ -432,6 +438,14 @@
             }
 
             scope.allSelected = scope.areAllSelected();
+
+            if (scope.emitOnSelect) {
+              if (attrs.name !== undefined) {
+                broadcastKey += '_' + attrs.name;
+              }
+
+              scope.$emit(broadcastKey, scope.model, option);
+            }
 
             return item;
           };
