@@ -441,10 +441,10 @@
 
             if (scope.emitOnSelect) {
               if (attrs.name !== undefined) {
-                broadcastKey += '_' + attrs.name;
+                broadcastkey += '_' + attrs.name;
               }
 
-              scope.$emit(broadcastKey, scope.model, option);
+              scope.$emit(broadcastkey, scope.model, option);
             }
 
             return item;
