@@ -62,7 +62,6 @@ To prepopulate items, add them to model.
 
 Event messages can be fired when the dropdown updates itself. **If the dropdown has a name attribute, append *_[name]* to the listener to capture the event.**
 
-HTML
 ```html
 <multi-select
   name="demo"
@@ -75,7 +74,6 @@ HTML
 </multi-select>
 ```
 
-JavaScript
 ```javascript
 $scope.$on('multiSelectOption_demo', function (event, model, option) {
   console.log(event, model, option);
@@ -89,7 +87,7 @@ $scope.$on('multiSelectOption_demo', function (event, model, option) {
 
 # Listeners
 
-Listeners are called when certain events are fired. **If the dropdown has a name attribute, append *_[name]* to the event to fire the listener.**
+Listeners are called when certain events are fired.
 
 ```html
 <multi-select
@@ -103,12 +101,12 @@ Listeners are called when certain events are fired. **If the dropdown has a name
 </multi-select>
 ```
 
-JavaScript
 ```javascript
 $scope.$emit('multiSelectRefresh', 'demo', { label: 'Option 1', value: 1 });
 ```
 
 | Event | Data | Description |
+|-------|------|-------------|
 | multiSelectClearAll | - | Clear all multi selects on the screen. Handy if there is more than one. |
 | multiSelectClear | name | Clear a multi selects options, referenced by the name attribute. |
 | multiSelectRefreshAll | - | Refresh all multi select options on the page. Handy if there is more than one. This listener should be called if the model is updated outside the directive. |
