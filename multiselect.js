@@ -87,7 +87,7 @@
 
                 if (scope.model.length === 1) {
                   label = scope.model[0][scope.labelField];
-                } else if (scope.areAllSelected()) {
+                } else if (scope.areAllSelected() && scope.model.length) {
                   label = 'All Selected';
                 } else if (scope.model.length > 1) {
                   label = scope.model.length + ' Selected';
