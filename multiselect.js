@@ -268,6 +268,9 @@
           scope.selectAll = function selectAll () {
             var areAllSelected = scope.areAllSelected(),  
                 doSelectAll = function () {
+                  //clear all first
+                  scope.model.length = 0;
+                  
                   if (! areAllSelected) {
                     ng.forEach(scope.values, function (item) {
                       if (isOther(item)) {
@@ -282,9 +285,6 @@
                     checkSelectedOptions();
                   }
                 };
-
-            //clear all first
-            scope.model.length = 0;
 
             if (scope.bigData && scope.showBigDataConfirm) {
               var confirmBigDataAction = confirm('Due to the amount of data in the dropdown, the current action may temporarily slow down your system. Do you want to continue?');
