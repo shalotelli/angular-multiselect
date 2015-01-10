@@ -50,11 +50,6 @@ These are default configuration variables that can be overriden via the ```multi
 | otherNgModel | string | Other scope model | other |
 | closeOnSelect | boolean | Should the dropdown close when an option is selected | false |
 
-templatePath: 'bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html',
-otherField: 'isOther',
-otherNgModel: 'other',
-closeOnSelect: false
-
 # Options
 
 | Option | Values | Description | Required | Default Value |
