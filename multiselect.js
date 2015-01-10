@@ -28,8 +28,7 @@
         templatePath: 'bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html',
         otherField: 'isOther',
         otherNgModel: 'other',
-        closeOnSelect: false,
-        dataThreshold: 1000
+        closeOnSelect: false
       };
 
       /**
@@ -71,8 +70,7 @@
           labelField: '@',
           templatePath: '@',
           closeOnSelect: '@',
-          emitOnSelect: '@',
-          showBigDataConfirm: '@'
+          emitOnSelect: '@'
         },
 
         link: function multiSelectLink (scope, element, attrs) {
@@ -146,13 +144,8 @@
 
           // show filters default value
           attrs.$observe('showFilters', function (showFilters) {
-            // if the array of data is big enough to cause a lag when filters are
-            // checked, set this flag
-            scope.bigData = !!(scope.values.length > multiSelectConfig.dataThreshold);
-
-            // if no showFilters flag set, determine visibility off bigData flag
-            // (if bigData is true, its safer to not show filters)
-            scope.showFilters = showFilters || !scope.bigData;
+            // if no showFilters flag set
+            scope.showFilters = showFilters || true;
           });
 
           // show other default value
@@ -203,10 +196,6 @@
 
           attrs.$observe('emitOnSelect', function (emitOnSelect) {
             scope.emitOnSelect = (emitOnSelect === 'true') || multiSelectConfig.emitOnSelect;
-          });
-
-          attrs.$observe('showBigDataConfirm', function (showBigDataConfirm) {
-            scope.showBigDataConfirm = (showBigDataConfirm === 'true') || true;
           });
 
           /**
@@ -266,34 +255,21 @@
            * Select/Deselect all options
            */
           scope.selectAll = function selectAll () {
-            var areAllSelected = scope.areAllSelected(),
-                doSelectAll = function () {
-                  //clear all first
-                  scope.model.length = 0;
+            //clear all first
+            scope.model.length = 0;
 
-                  if (! areAllSelected) {
-                    ng.forEach(scope.values, function (item) {
-                      if (isOther(item)) {
-                        return;
-                      }
-
-                      scope.selectOption(item);
-                    });
-                  } else {
-                    scope.allSelected = true;
-                    clearOther();
-                    checkSelectedOptions();
-                  }
-                };
-
-            if (scope.bigData && scope.showBigDataConfirm) {
-              var confirmBigDataAction = confirm('Due to the amount of data in the dropdown, the current action may temporarily slow down your system. Do you want to continue?');
-
-              if (confirmBigDataAction) {
-                doSelectAll();
-              }
+            if (scope.areAllSelected()) {
+              scope.allSelected = true;
+              clearOther();
+              checkSelectedOptions();
             } else {
-              doSelectAll();
+              ng.forEach(scope.values, function (item) {
+                if (isOther(item)) {
+                  return;
+                }
+
+                scope.selectOption(item);
+              });
             }
           };
 
