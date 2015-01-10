@@ -48,13 +48,11 @@ These are default configuration variables that can be overriden via the ```multi
 | otherField | string | Name of other field scope variable | isOther |
 | otherNgModel | string | Other scope model | other |
 | closeOnSelect | boolean | Should the dropdown close when an option is selected | false |
-| dataThreshold | integer | Number of items that can be loaded before a potential slowdown | 1000 |
 
 templatePath: 'bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html',
 otherField: 'isOther',
 otherNgModel: 'other',
-closeOnSelect: false,
-dataThreshold: 1000
+closeOnSelect: false
 
 # Options
 
@@ -74,7 +72,6 @@ dataThreshold: 1000
 | template-path | string | Specify an alternate view template path for the directive | no | bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html |
 | close-on-select | boolean | Should the dropdown close after each selection | no | false |
 | emit-on-select | boolean | Emit a message when an option is selected/deselected | no | false |
-| show-big-data-confirm | boolean | When the length of value array is larger than data threshold set in the configuration and a filter is clicked, show a confirmation message to the user explaining that the action they're about to take make result in decreased performance | no | true |
 
 # Events
 
