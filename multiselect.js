@@ -1,12 +1,12 @@
 (function (ng) {
   'use strict';
 
-  Function.prototype.method = function (name, func) {
+  Function.prototype.method = function method (name, func) {
     this.prototype[name] = func;
     return this;
   };
 
-  Function.method('curry', function () {
+  Function.method('curry', function curry () {
     var slice = Array.prototype.slice,
         args = slice.apply(arguments),
         that = this;
@@ -35,7 +35,7 @@
        * Set defaults
        * @param {Object} settings Settings object
        */
-      this.setDefaults = function (settings) {
+      this.setDefaults = function setDefaults (settings) {
         angular.extend(defaults, settings || {});
       };
 
@@ -43,9 +43,9 @@
         return defaults;
       }];
     })
-    .directive('multiSelect', [ 'multiSelectConfig', '$timeout', '$log',  function (multiSelectConfig, $timeout, $log) {
+    .directive('multiSelect', [ 'multiSelectConfig', '$timeout', '$log',  function multiSelect (multiSelectConfig, $timeout, $log) {
       return {
-        templateUrl: function (element, attrs) {
+        templateUrl: function templateUrl (element, attrs) {
           if (attrs.templatePath !== undefined) {
             return attrs.templatePath;
           }
@@ -106,15 +106,15 @@
               },
 
               // check all selected options
-              checkSelectedOptions = function () {
+              checkSelectedOptions = function checkSelectedOptions () {
                 scope.selectedOptions = [];
 
-                ng.forEach(scope.model, function (option) {
-                  scope.selectedOptions[option[scope.valueField]] = true;
-                });
+                for (var i=0;i<scope.model.length;i++) {
+                  scope.selectedOptions[scope.model[i][scope.valueField]] = true;
+                }
               },
 
-              isOptionSelected = function (option) {
+              isOptionSelected = function isOptionSelected (option) {
                 return scope.selectedOptions[option[scope.valueField]];
               };
 
@@ -122,7 +122,7 @@
 
           scope.isOptionSelected = isOptionSelected;
 
-          var watch = scope.$watch('model', function (newVal, oldVal) {
+          var watch = scope.$watch('model', function modelWatch (newVal, oldVal) {
             if (ng.isDefined(newVal)) {
               if (newVal.length) {
                 // if we have something display
@@ -143,18 +143,18 @@
           scope.selectedOptions = [];
 
           // show filters default value
-          attrs.$observe('showFilters', function (showFilters) {
+          attrs.$observe('showFilters', function showFilters (showFilters) {
             // if no showFilters flag set
             scope.showFilters = showFilters || true;
           });
 
           // show other default value
-          attrs.$observe('showOther', function (showOther) {
+          attrs.$observe('showOther', function showOther (showOther) {
             scope.showOther = showOther || false;
           });
 
           // other box event binding
-          attrs.$observe('otherEvent', function (otherEvent) {
+          attrs.$observe('otherEvent', function otherEvent (otherEvent) {
             if (otherEvent === undefined || ! otherEvent.match(/blur|keyup|enter/)) {
               otherEvent = 'keyup';
             }
@@ -230,7 +230,7 @@
            * Close dropdown when user presses Enter key
            * @param  {Object} $event Event
            */
-          scope.close = function ($event) {
+          scope.close = function close ($event) {
             //this should be migrated to use angualar
             if ($event.which === 13) {
               $event.preventDefault();
@@ -288,9 +288,9 @@
            */
           scope.areAllSelected = function areAllSelected () {
             var _allSelected = false,
-            valueCount = scope.values.length,
-            modelCount = scope.model.length,
-            $checkbox = $dropdown.find('.multi-select-select-all-checkbox');
+                valueCount = scope.values.length,
+                modelCount = scope.model.length,
+                $checkbox = $dropdown.find('.multi-select-select-all-checkbox');
 
             for (var i = 0; i < scope.values.length; i++) {
               if (isOther(scope.values[i])) {
@@ -320,7 +320,7 @@
            * Find other value
            * @return {Object} Other object
            */
-          var findOther = function () {
+          var findOther = function findOther () {
             var selected;
 
             for (var i=0;i< scope.model.length;i++) {
@@ -338,7 +338,7 @@
           * @param  {Object} item      Needle
           * @return {Object}            Found object
           */
-          var _find = function (collection, item) {
+          var _find = function _find (collection, item) {
             var selected;
 
             collection  = collection || [];
@@ -352,11 +352,11 @@
             }
           };
 
-          var findItem = function(item) {
+          var findItem = function findItem (item) {
             return _find(scope.model, item);
           };
 
-          var findInSelect = function(item) {
+          var findInSelect = function findInSelect (item) {
             return _find(scope.values, item);
           };
 
@@ -373,18 +373,18 @@
            * Sync other value
            * @param  {Object} option Option object
            */
-          scope.syncOther = function (option) {
+          scope.syncOther = function syncOther (option) {
             var selected = findItem(option);
 
             if (selected) {
               //toggle it off
               if (! scope.shared.other) {
-                selected = scope.selectOption(option);
+                selected = scope.selectOption(option, true);
               }
             } else {
               if (scope.shared.other) {
                 //only select it if there is text
-                selected = scope.selectOption(option);
+                selected = scope.selectOption(option, true);
               }
             }
 
