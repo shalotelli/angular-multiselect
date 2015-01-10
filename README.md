@@ -44,6 +44,7 @@ To prepopulate items, add them to model.
 These are default configuration variables that can be overriden via the ```multiSelectConfigProvider```.
 
 | Key | Values | Description | Default Value |
+|-----|--------|-------------|---------------|
 | templatePath | string | Path to template file | bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html |
 | otherField | string | Name of other field scope variable | isOther |
 | otherNgModel | string | Other scope model | other |
