@@ -100,7 +100,7 @@
                 if (attrs.name !== undefined) {
                   broadcastkey += '_' + attrs.name;
                 }
-                
+
                 // emit data
                 scope.$emit(broadcastkey, label);
 
@@ -266,11 +266,11 @@
            * Select/Deselect all options
            */
           scope.selectAll = function selectAll () {
-            var areAllSelected = scope.areAllSelected(),  
+            var areAllSelected = scope.areAllSelected(),
                 doSelectAll = function () {
                   //clear all first
                   scope.model.length = 0;
-                  
+
                   if (! areAllSelected) {
                     ng.forEach(scope.values, function (item) {
                       if (isOther(item)) {
@@ -308,36 +308,36 @@
 
           /**
            * Check if all values are selected
-           * @return {Boolean} 
+           * @return {Boolean}
            */
           scope.areAllSelected = function areAllSelected () {
-            var values = angular.copy(scope.values),
-                model = angular.copy(scope.model),
-                areAllSelected = false,
-                $checkbox = $dropdown.find('.multi-select-select-all-checkbox');
+            var _allSelected = false,
+            valueCount = scope.values.length,
+            modelCount = scope.model.length,
+            $checkbox = $dropdown.find('.multi-select-select-all-checkbox');
 
-            for (var i=0;i<values.length;i++) {
-              if (isOther(values[i])) {
-                values.splice(i, 1);
+            for (var i = 0; i < scope.values.length; i++) {
+              if (isOther(scope.values[i])) {
+                valueCount--;
               }
             }
 
-            for (var j=0;j<model.length;j++) {
-              if (isOther(model[j])) {
-                model.splice(j, 1);
+            for (var j = 0; j < scope.model.length; j++) {
+              if (isOther(scope.model[j])) {
+                modelCount --;
               }
             }
 
-            areAllSelected = (values.length === model.length);
+            _allSelected = (modelCount === valueCount);
 
             // if some are selected, put checkbox in indeterminate mode
-            if (! (areAllSelected) && model.length > 0) {
+            if (!(_allSelected) && model.length > 0) {
               $checkbox.prop('indeterminate', true);
             } else {
               $checkbox.prop('indeterminate', false);
             }
 
-            return areAllSelected;
+            return _allSelected;
           };
 
           /**
