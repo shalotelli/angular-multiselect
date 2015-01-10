@@ -316,15 +316,14 @@
             modelCount = scope.model.length,
             $checkbox = $dropdown.find('.multi-select-select-all-checkbox');
 
-            for (var i = 0; i < values.length; i++) {
-              if (isOther(values[i])) {
+            for (var i = 0; i < scope.values.length; i++) {
+              if (isOther(scope.values[i])) {
                 valueCount--;
               }
             }
 
-            modelCount = models.length;
-            for (var j = 0; j < model.length; j++) {
-              if (isOther(model[j])) {
+            for (var j = 0; j < scope.model.length; j++) {
+              if (isOther(scope.model[j])) {
                 modelCount --;
               }
             }
