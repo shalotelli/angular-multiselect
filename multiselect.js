@@ -255,22 +255,23 @@
            * Select/Deselect all options
            */
           scope.selectAll = function selectAll () {
+            scope.allSelected = scope.areAllSelected();
+
             //clear all first
             scope.model.length = 0;
 
-            if (scope.areAllSelected()) {
-              scope.allSelected = true;
+            if (scope.allSelected) {
               clearOther();
               checkSelectedOptions();
             } else {
-              ng.forEach(scope.values, function (item) {
-                if (isOther(item)) {
-                  return;
-                }
+              for (var i=0;i<scope.values.length;i++) {
+                if (isOther(scope.values[i])) return;
 
-                scope.selectOption(item);
-              });
+                scope.selectOption(scope.values[i], true);
+              }
             }
+
+            scope.allSelected = !scope.allSelected;
           };
 
           /**
@@ -404,17 +405,18 @@
            * @param  {Object} $event Event
            * @param  {Object} value  Option object
            */
-          scope.clickCheckbox = function ($event, value) {
+          scope.clickCheckbox = function clickCheckbox ($event, value) {
             $event.stopPropagation();
             scope.selectOption(value);
           };
 
           /**
            * select/deselect option
-           * @param  {Object} option Option object
-           * @return {Object}        Item object
+           * @param  {Object}  option          Option object
+           * @param  {Boolean} skipAllSelected Skip all selected check if unecessary
+           * @return {Object}                  Item object
            */
-          scope.selectOption = function selectOption (option) {
+          scope.selectOption = function selectOption (option, skipAllSelected) {
             var item = findItem(option),
                 broadcastkey = 'multiSelectOption';
 
@@ -436,7 +438,9 @@
               $dropdown.removeClass('show').addClass('hide');
             }
 
-            scope.allSelected = scope.areAllSelected();
+            if (! skipAllSelected) {
+              scope.allSelected = scope.areAllSelected();
+            }
 
             if (scope.emitOnSelect) {
               if (attrs.name !== undefined) {
