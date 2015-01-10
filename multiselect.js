@@ -463,7 +463,7 @@
 
             $timeout(function () {
               checkSelectedOptions();
-              scope.allSelected = scope.areAllSelected();
+              scope.allSelected = false;
               clearOther();
             });
           });
@@ -475,7 +475,7 @@
 
               $timeout(function () {
                 checkSelectedOptions();
-                scope.allSelected = scope.areAllSelected();
+                scope.allSelected = false;
                 clearOther();
               });
             }
