@@ -331,7 +331,7 @@
             _allSelected = (modelCount === valueCount);
 
             // if some are selected, put checkbox in indeterminate mode
-            if (!(_allSelected) && model.length > 0) {
+            if (!(_allSelected) && scope.model.length > 0) {
               $checkbox.prop('indeterminate', true);
             } else {
               $checkbox.prop('indeterminate', false);
