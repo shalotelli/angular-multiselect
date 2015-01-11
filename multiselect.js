@@ -7,10 +7,10 @@
    * @description
    * # Angular Multi Select directive
    */
-  ng.module('shalotelli-angular-multiselect', [])
+  ng.module('shalotelli-angular-multiselect', ['shalotelli-angular-multiselect.templates'])
     .provider('multiSelectConfig', function MultiSelectConfig () {
       var defaults = {
-        templatePath: 'bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html',
+        templatePath: '/directives/multi-select.html',
         otherField: 'isOther',
         otherNgModel: 'other',
         closeOnSelect: false

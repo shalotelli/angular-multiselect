@@ -3,6 +3,7 @@ var gulp = require('gulp'),
   del = require('del'),
   rename = require('gulp-rename'),
   jshint = require('gulp-jshint'),
+  htmlmin= require('gulp-htmlmin'),
   jshintreporter = require('jshint-summary'),
   ngAnnotate = require('gulp-ng-annotate'),
   ngTemplates = require('gulp-ng-templates'),
@@ -11,37 +12,64 @@ var gulp = require('gulp'),
 
 
 files.test = [];
-files.src = ['multiselect.js'];
+files.css = [ 'styles/multi-select.css'];
+files.src = ['release/templates.min.js', 'multiselect.js'];
+files.templates = ['views/**/*.html'];
 files.destination = 'release/';
 
-
-gulp.task('test', function() {
-  return gulp.src(files.test)
-    .pipe(qunit());
+gulp.task('templates', function () {
+  return gulp.src(files.templates)
+  .pipe(htmlmin({collapseWhitespace: true}))
+  .pipe(ngTemplates({
+    filename: 'templates.js',
+    module: 'shalotelli-angular-multiselect.templates',
+    path: function (path, base) {
+      return path.replace(base, '/');
+    }
+  }))
+  .pipe(gulp.dest('release/'))
+  .pipe(uglify())
+  .pipe(rename({
+    suffix: '.min'
+  }))
+  .pipe(gulp.dest('release/'));
 });
 
-gulp.task('clean', function(cb) {
-  del(files.destination, cb);
-});
 
-gulp.task('scripts', function() {
+gulp.task('scripts', ['templates'], function() {
   return gulp.src(files.src)
     .pipe(concat('multiselect.js'))
     .pipe(ngAnnotate())
     .pipe(gulp.dest(files.destination))
+    .pipe(rename(function(path){
+      //this is needed so we dont rename the map file
+      if(path.extname === '.js') {
+        path.basename += '.min';
+      }
+    }))
     .pipe(uglify({
       preserveComments: 'some',
       outSourceMap: true
     }))
-    .pipe(rename({
-      extname: ".min.js"
-    }))
+
     .pipe(gulp.dest(files.destination));
-
-
 });
 
 
+//this is just for css (we can do sass later)
+gulp.task('copy', function(){
+  gulp.src(files.css)
+  .pipe(gulp.dest(files.destination + 'styles/'));
+});
 
 
-gulp.task('default', ['clean', 'scripts']);
+gulp.task('test', function() {
+  return gulp.src(files.test)
+  .pipe(qunit());
+});
+
+gulp.task('clean', function(cb) {
+  del([files.destination + 'styles/', files.destination], cb);
+});
+
+gulp.task('default', ['copy', 'scripts']);
