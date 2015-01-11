@@ -1,0 +1,133 @@
+.multi-select > .multi-select-container[readonly] {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAECAMAAAB1GNVPAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA69pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wUmlnaHRzPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvcmlnaHRzLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcFJpZ2h0czpNYXJrZWQ9IkZhbHNlIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InV1aWQ6NDA2MDE4RjNGMTY4REYxMTlGMzE5N0QxMzkyN0VFNEQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RUE0NTc4RjVCRUQwMTFERkI5MTQ4MDIzMjU2NDg2QUIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RUE0NTc4RjRCRUQwMTFERkI5MTQ4MDIzMjU2NDg2QUIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDowMjRCRUQ2RUI2MjA2ODExOEY2MkZFMTkwMUI1RUNCRSIgc3RSZWY6ZG9jdW1lbnRJRD0idXVpZDo0MDYwMThGM0YxNjhERjExOUYzMTk3RDEzOTI3RUU0RCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PjwRas0AAAAGUExURXFxdOv3/5a+PqkAAAACdFJOU/8A5bcwSgAAABdJREFUeNpiYIACRijJCGIwgmgwBggwAACQAA3KWolpAAAAAElFTkSuQmCC);
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-position-y: 14px;
+  background-position-x: 97%;
+  background-color: #fff;
+  cursor: pointer;
+  height: 34px;
+}
+
+.multi-select > .multi-select-dropdown {
+  background-color: #fff;
+  position: absolute;
+  z-index: 999;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 4px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+  margin-top: 3px;
+  padding: 10px 0 0 0;
+  min-width: 300px;
+  overflow-y: auto;
+}
+
+.multi-select > .multi-select-dropdown input[type=checkbox] {
+  margin-right: 8px;
+}
+
+.multi-select > .multi-select-dropdown > .multi-select-filters {
+  padding: 0 10px 8px 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.multi-select > .multi-select-dropdown > .multi-select-filters > .multi-select-filter {
+  display: inline;
+  padding: 0.2em 0.6em 0.3em;
+  font-weight: 400;
+  color: #666;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  cursor: pointer;
+}
+
+.multi-select > .multi-select-dropdown > ul {
+  padding: 0;
+  margin-top: 5px;
+  list-style-type: none;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.multi-select > .multi-select-dropdown > ul > li {
+  line-height: 1.9em;
+  font-weight: 400;
+  color: #666;
+  list-style-type: none;
+  margin-left: 0;
+}
+
+.multi-select > .multi-select-dropdown > ul > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  color: #666;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.multi-select > .multi-select-dropdown > ul > li > a:hover {
+  color: #363636;
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+
+.multi-select > .multi-select-dropdown > ul > li .multi-select-other-container {
+  padding: 10px 20px 0px 20px
+}
+
+.multi-select > .multi-select-dropdown > .multi-select-other-container > .multi-select-other {
+  font-size: 0.9em;
+  height: 30px;
+  width: 300px;
+}
+
+.multi-select .hide {
+  display: none !important;
+}
+
+.multi-select .show {
+  display: block !important;
+}
+
+.multi-select .form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.multi-select .form-control:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+          box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+.multi-select .form-control::-moz-placeholder {
+  color: #777;
+  opacity: 1;
+}
+
+.multi-select .form-control:-ms-input-placeholder {
+  color: #777;
+}
+
+.multi-select .form-control::-webkit-input-placeholder {
+  color: #777;
+}
