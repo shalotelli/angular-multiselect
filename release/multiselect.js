@@ -1,4 +1,4 @@
-angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCache",function(e){e.put("/directives/multi-select.html",'<div class="multi-select"><input type="text" class="form-control multi-select-container" ng-click="toggleDropdown()" value="{{displayOptions()}}" placeholder="None Selected" readonly="readonly"><div class="multi-select-dropdown hide"><div class="multi-select-filters" ng-show="showFilters"><span class="multi-select-filter" ng-click="selectAll()"><input type="checkbox" ng-model="allSelected" ng-click="clickSelectAllCheckbox($event)" class="multi-select-select-all-checkbox"> Select All</span></div><!-- ./multi-select-filters --><ul><li class="multi-select-option" ng-repeat="value in values"><a class="multi-select-option-link" href="javascript:;" ng-if="!isOther(value)" ng-click="selectOption(value)" ng-class="{selected: isSelected(value)}"><input type="checkbox" ng-checked="isOptionSelected(value)" ng-click="clickCheckbox($event, value)"> {{value[labelField]}}</a><!-- ./multi-select-option-link --><div class="multi-select-other-container" ng-if="showOther && isOther(value)"><input type="text" class="form-control multi-select-other" placeholder="Other" ng-change="syncOther(value)" ng-keypress="close($event)" ng-model="shared.other"></div><!-- ./multi-select-other-container --></li><!-- ./multi-select-option --></ul></div><!-- ./multi-select-dropdown --></div>')}]);
+angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCache",function(e){e.put("/directives/multi-select.html",'<div class="multi-select"><input type="text" class="form-control multi-select-container" ng-click="toggleDropdown()" value="{{displayOptions()}}" placeholder="None Selected" readonly="readonly"><div class="multi-select-dropdown hide"><div class="multi-select-filters" ng-show="showFilters"><span class="multi-select-filter" ng-click="selectAll()"><input type="checkbox" ng-model="allSelected" ng-click="clickSelectAllCheckbox($event)" class="multi-select-select-all-checkbox"> Select All</span></div><!-- ./multi-select-filters --><ul infinite-scroll="loadMore()" infinite-scroll-container infinite-scroll-distance="2"><li class="multi-select-option" ng-repeat="value in _values"><a class="multi-select-option-link" href="javascript:;" ng-if="!isOther(value)" ng-click="selectOption(value)" ng-class="{selected: isSelected(value)}"><input type="checkbox" ng-checked="isOptionSelected(value)" ng-click="clickCheckbox($event, value)"> {{value[labelField]}}</a><!-- ./multi-select-option-link --><div class="multi-select-other-container" ng-if="showOther && isOther(value)"><input type="text" class="form-control multi-select-other" placeholder="Other" ng-change="syncOther(value)" ng-keypress="close($event)" ng-model="shared.other"></div><!-- ./multi-select-other-container --></li><!-- ./multi-select-option --></ul></div><!-- ./multi-select-dropdown --></div>')}]);
 (function (ng) {
   'use strict';
 
@@ -8,7 +8,7 @@ angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCac
    * @description
    * # Angular Multi Select directive
    */
-  ng.module('shalotelli-angular-multiselect', ['shalotelli-angular-multiselect.templates'])
+  ng.module('shalotelli-angular-multiselect', ['shalotelli-angular-multiselect.templates', 'infinite-scroll'])
     .provider('multiSelectConfig', function MultiSelectConfig () {
       var defaults = {
         templatePath: '/directives/multi-select.html',
@@ -107,6 +107,22 @@ angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCac
           scope.displayOptions = displayOptions;
 
           scope.isOptionSelected = isOptionSelected;
+
+          scope._values = [];
+          var LOAD= 200, loading = false;
+          function loadMore() {
+              var offset = scope._values.length;
+              scope._values.push.apply(scope._values, scope.values.slice(offset, offset + LOAD));
+          }
+
+          var valueWatch = scope.$watch('values', valuesChangedFunction);
+          scope.loadMore = loadMore;
+          function valuesChangedFunction(newVal, oldVal) {
+            if (newVal && newVal.length) {
+              loadMore();
+              valueWatch();
+            }
+          }
 
           var watch = scope.$watch('model', function modelWatch (newVal, oldVal) {
             if (ng.isDefined(newVal)) {

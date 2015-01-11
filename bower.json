@@ -6,6 +6,9 @@
   ],
   "description": "A multi select drop down list for AngularJS",
   "main": "multiselect.js",
+  "dependencies": {
+       "ngInfiniteScroll" : "1.0.0"
+  },
   "keywords": [
     "angular",
     "angularjs",

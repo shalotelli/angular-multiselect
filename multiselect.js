@@ -7,7 +7,7 @@
    * @description
    * # Angular Multi Select directive
    */
-  ng.module('shalotelli-angular-multiselect', ['shalotelli-angular-multiselect.templates'])
+  ng.module('shalotelli-angular-multiselect', ['shalotelli-angular-multiselect.templates', 'infinite-scroll'])
     .provider('multiSelectConfig', function MultiSelectConfig () {
       var defaults = {
         templatePath: '/directives/multi-select.html',
@@ -106,6 +106,22 @@
           scope.displayOptions = displayOptions;
 
           scope.isOptionSelected = isOptionSelected;
+
+          scope._values = [];
+          var LOAD= 200, loading = false;
+          function loadMore() {
+              var offset = scope._values.length;
+              scope._values.push.apply(scope._values, scope.values.slice(offset, offset + LOAD));
+          }
+
+          var valueWatch = scope.$watch('values', valuesChangedFunction);
+          scope.loadMore = loadMore;
+          function valuesChangedFunction(newVal, oldVal) {
+            if (newVal && newVal.length) {
+              loadMore();
+              valueWatch();
+            }
+          }
 
           var watch = scope.$watch('model', function modelWatch (newVal, oldVal) {
             if (ng.isDefined(newVal)) {

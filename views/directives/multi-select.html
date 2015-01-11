@@ -10,8 +10,8 @@
       </span>
     </div><!-- ./multi-select-filters -->
 
-    <ul >
-      <li class="multi-select-option" ng-repeat="value in values">
+    <ul infinite-scroll="loadMore()" infinite-scroll-container infinite-scroll-distance='2'>
+      <li class="multi-select-option" ng-repeat="value in _values">
         <a class="multi-select-option-link" href="javascript:;" ng-if="!isOther(value)" ng-click="selectOption(value)" ng-class="{selected: isSelected(value)}">
           <input type="checkbox" ng-checked="isOptionSelected(value)" ng-click="clickCheckbox($event, value)"> {{value[labelField]}}
         </a><!-- ./multi-select-option-link -->
