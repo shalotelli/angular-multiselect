@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link data-require="bootstrap-css@3.2.0" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+  <script data-require="jquery@2.1.1" data-semver="2.1.1" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+  <script data-require="angular.js@1.3.0-beta.5" data-semver="1.3.0-beta.5" src="https://code.angularjs.org/1.3.0-beta.5/angular.js"></script>
+  <script src="../release/multiselect.min.js"></script>
+  <link rel="stylesheet" href="../release/styles/multi-select.css" />
+  <script src="demo.js"></script>
+</head>
+
+<body ng-app="multiSelectDemo">
+  <div class="container">
+    <h1>Shalotelli Angular Multiselect</h1>
+    <div ng-controller="MainCtrl">
+      <div class="row">
+        <div class="col-xs-6">
+          <multi-select
+          values="multiSelectData"
+          model="selectedItems"
+          show-filters="true"
+          value-field="id"
+          label-field="label">
+        </multi-select>
+      </div>
+    </div>
+
+
+    <button ng-click="custom=!custom">Show custom </button>
+
+    <div class="row" ng-if="custom">
+      <div class="col-xs-6">
+        <multi-select
+        values="multiSelectData"
+        model="selectedItems"
+        show-filters="true"
+        value-field="id"
+        label-field="label"
+        template-path="http://rawgit.com/shalotelli/angular-multiselect/ui-mod/views/directives/multi-select.html">
+      </multi-select>
+    </div>
+  </div>
+
+    <hr />
+
+    <p>Multi Select Data: </p>
+    <pre>{{multiSelectData}}</pre>
+    <p></p>
+    <hr />
+    <p>Multi Select Output: </p>
+    <pre>{{selectedItems}}</pre>
+    <p></p>
+  </div>
+</div>
+</body>
+
+</html>
