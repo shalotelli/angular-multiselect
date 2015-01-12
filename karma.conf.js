@@ -18,8 +18,7 @@ module.exports = function(config) {
       'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js',
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js',
       'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular-mocks.js',
-      'multiselect.js',
-      'views/**/*.html',
+      'release/multiselect.js',
       'tests/**/*.spec.js'
     ],
 
@@ -31,15 +30,9 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'views/**/*.html': ['ng-html2js'],
-      'multiselect.js': ['coverage']
+      'release/multiselect.js': ['coverage']
     },
 
-
-    // the name of teh Angular module to create
-    ngHtml2JsPreprocessor: {
-      module: 'shalotelli-angular-multiselect.templates'
-    },
 
     coverageReporter: {
       type: 'html',
@@ -82,7 +75,6 @@ module.exports = function(config) {
 
     plugins: [
       'karma-jasmine',
-      'karma-ng-html2js-preprocessor',
       'karma-coverage',
       'karma-phantomjs-launcher'
     ]

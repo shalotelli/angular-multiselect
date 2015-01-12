@@ -129,18 +129,18 @@ angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCac
           scope.selectedOptions = [];
 
           // show filters default value
-          attrs.$observe('showFilters', function showFilters (showFilters) {
+          attrs.$observe('showFilters', function (showFilters) {
             // if no showFilters flag set
             scope.showFilters = showFilters || true;
           });
 
           // show other default value
-          attrs.$observe('showOther', function showOther (showOther) {
+          attrs.$observe('showOther', function (showOther) {
             scope.showOther = showOther || false;
           });
 
           // other box event binding
-          attrs.$observe('otherEvent', function otherEvent (otherEvent) {
+          attrs.$observe('otherEvent', function (otherEvent) {
             if (otherEvent === undefined || ! otherEvent.match(/blur|keyup|enter/)) {
               otherEvent = 'keyup';
             }

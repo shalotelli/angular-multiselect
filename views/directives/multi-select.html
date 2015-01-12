@@ -10,7 +10,7 @@
       </span>
     </div><!-- ./multi-select-filters -->
 
-    <ul >
+    <ul>
       <li class="multi-select-option" ng-repeat="value in values">
         <a class="multi-select-option-link" href="javascript:;" ng-if="!isOther(value)" ng-click="selectOption(value)" ng-class="{selected: isSelected(value)}">
           <input type="checkbox" ng-checked="isOptionSelected(value)" ng-click="clickCheckbox($event, value)"> {{value[labelField]}}

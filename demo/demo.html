@@ -18,42 +18,41 @@
       <div class="row">
         <div class="col-xs-6">
           <multi-select
+            values="multiSelectData"
+            model="selectedItems"
+            show-filters="true"
+            value-field="id"
+            label-field="label">
+          </multi-select>
+        </div>
+      </div>
+
+      <button ng-click="custom=!custom">Show custom</button>
+
+      <div class="row" ng-if="custom">
+        <div class="col-xs-6">
+          <multi-select
           values="multiSelectData"
           model="selectedItems"
           show-filters="true"
           value-field="id"
-          label-field="label">
+          label-field="label"
+          template-path="http://rawgit.com/shalotelli/angular-multiselect/ui-mod/views/directives/multi-select.html">
         </multi-select>
       </div>
     </div>
 
+      <hr />
 
-    <button ng-click="custom=!custom">Show custom </button>
-
-    <div class="row" ng-if="custom">
-      <div class="col-xs-6">
-        <multi-select
-        values="multiSelectData"
-        model="selectedItems"
-        show-filters="true"
-        value-field="id"
-        label-field="label"
-        template-path="http://rawgit.com/shalotelli/angular-multiselect/ui-mod/views/directives/multi-select.html">
-      </multi-select>
+      <p>Multi Select Data: </p>
+      <pre>{{multiSelectData}}</pre>
+      <p></p>
+      <hr />
+      <p>Multi Select Output: </p>
+      <pre>{{selectedItems}}</pre>
+      <p></p>
     </div>
   </div>
-
-    <hr />
-
-    <p>Multi Select Data: </p>
-    <pre>{{multiSelectData}}</pre>
-    <p></p>
-    <hr />
-    <p>Multi Select Output: </p>
-    <pre>{{selectedItems}}</pre>
-    <p></p>
-  </div>
-</div>
 </body>
 
 </html>
