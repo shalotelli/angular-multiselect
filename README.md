@@ -68,6 +68,7 @@ These are default configuration variables that can be overriden via the ```multi
 | template-path | string | Specify an alternate view template path for the directive | no | bower_components/shalotelli-angular-multiselect/views/directives/multi-select.html |
 | close-on-select | boolean | Should the dropdown close after each selection | no | false |
 | emit-on-select | boolean | Emit a message when an option is selected/deselected | no | false |
+| disabled | boolean | Disable element | no | false |
 
 # Events
 

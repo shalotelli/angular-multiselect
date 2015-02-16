@@ -131,3 +131,8 @@
 .multi-select .form-control::-webkit-input-placeholder {
   color: #777;
 }
+
+.multi-select .form-control[disabled="disabled"] {
+  background: #eee;
+  cursor: default;
+}

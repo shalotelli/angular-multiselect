@@ -55,7 +55,8 @@
           labelField: '@',
           templatePath: '@',
           closeOnSelect: '@',
-          emitOnSelect: '@'
+          emitOnSelect: '@',
+          disabled: '='
         },
 
         link: function multiSelectLink (scope, element, attrs) {
