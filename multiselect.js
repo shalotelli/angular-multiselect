@@ -71,7 +71,10 @@
                 var broadcastkey = 'multiSelectUpdate',
                     label = '';
 
-                if (scope.model.length === 1) {
+                
+                if (scope.disabled) {
+                  label = 'None Available';
+                } else if (scope.model.length === 1) {
                   label = scope.model[0][scope.labelField];
                 } else if (scope.areAllSelected() && scope.model.length) {
                   label = 'All Selected';
