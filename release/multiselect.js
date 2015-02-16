@@ -229,10 +229,19 @@ angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCac
            * Show/hide dropdown
            */
           scope.toggleDropdown = function toggleDropdown () {
+            var broadcastkey = 'multiSelectDropdownOpen';
+
             if ($dropdown.hasClass('hide')) {
               // close all other dropdowns on the page before showing the selected one
               ng.element('body').find('.multi-select-dropdown').removeClass('show').addClass('hide');
               $dropdown.removeClass('hide').addClass('show');
+
+              if (attrs.name !== undefined) {
+                broadcastkey += '_' + attrs.name;
+
+                // dropdown open event hook
+                scope.$emit(broadcastkey);
+              }
             } else {
               $dropdown.removeClass('show').addClass('hide');
             }

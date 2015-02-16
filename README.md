@@ -96,6 +96,7 @@ $scope.$on('multiSelectOption_demo', function (event, model, option) {
 |-------|------|-------------|
 | multiSelectUpdate | label | Event emitted when display is updated. *label* holds the dropdowns display label |
 | multiSelectOption | model, option | Event emitted when a option is selected/deselected. This will only be emitted if ```emit-on-select``` is ```true``` |
+| multiSelectDropdownOpen | - | Event emmited when elements dropdown opens. This event only fires if the element has a name attribute |
 
 # Listeners
 
