@@ -10,7 +10,8 @@ var gulp = require('gulp'),
     ngAnnotate = require('gulp-ng-annotate'),
     ngTemplates = require('gulp-ng-templates'),
     concat = require('gulp-concat'),
-    karma = require('karma').server;
+    karma = require('karma').server,
+    server = require('gulp-server-livereload');
 
 var files = {};
 
@@ -74,4 +75,16 @@ gulp.task('clean', function(cb) {
   del([files.destination + 'styles/', files.destination], cb);
 });
 
-gulp.task('default', ['copy', 'scripts']);
+gulp.task('serve', function () {
+  gulp.src(__dirname)
+    .pipe(server({
+      livereload: true,
+      port: 8000,
+      defaultFile: 'demo/demo.html',
+      open: true
+    }));
+});
+
+gulp.task('demo',[ 'copy', 'scripts', 'test', 'serve' ]);
+
+gulp.task('default', [ 'copy', 'scripts' ]);
