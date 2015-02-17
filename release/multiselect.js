@@ -245,7 +245,7 @@ angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCac
                 scope.$emit(broadcastkey);
               }
 
-              if (($dropdown.height() + $dropdown.position().top) > $window.innerHeight) {
+              if (($dropdown.height() + $dropdown.offset().top) > $window.innerHeight) {
                 $dropdown.addClass('dropdown-top');
               }
             } else {
