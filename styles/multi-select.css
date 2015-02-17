@@ -23,6 +23,10 @@
   overflow-y: auto;
 }
 
+.dropdown-top {
+  bottom: 38px;
+}
+
 .multi-select > .multi-select-dropdown input[type=checkbox] {
   margin-right: 8px;
 }

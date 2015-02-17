@@ -28,7 +28,7 @@
         return defaults;
       }];
     })
-    .directive('multiSelect', [ 'multiSelectConfig', '$timeout', '$log',  function multiSelect (multiSelectConfig, $timeout, $log) {
+    .directive('multiSelect', [ 'multiSelectConfig', '$timeout', '$log', '$window', function multiSelect (multiSelectConfig, $timeout, $log, $window) {
       return {
         templateUrl: function templateUrl (element, attrs) {
           if (attrs.templatePath !== undefined) {
@@ -70,7 +70,6 @@
               displayOptions = function displayOptions () {
                 var broadcastkey = 'multiSelectUpdate',
                     label = '';
-
                 
                 if (scope.disabled) {
                   label = 'None Available';
@@ -244,8 +243,15 @@
                 // dropdown open event hook
                 scope.$emit(broadcastkey);
               }
+
+              if (($dropdown.height() + $dropdown.position().top) > $window.innerHeight) {
+                $dropdown.addClass('dropdown-top');
+              }
             } else {
-              $dropdown.removeClass('show').addClass('hide');
+              $dropdown
+                .removeClass('show')
+                .removeClass('dropdown-top')
+                .addClass('hide');
             }
           };
 
