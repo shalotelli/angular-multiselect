@@ -9,6 +9,10 @@
   height: 34px;
 }
 
+.multi-select > .multi-select-container[readonly][value="None Selected"] {
+  color: #CCC;
+}
+
 .multi-select > .multi-select-dropdown {
   background-color: #fff;
   position: absolute;
