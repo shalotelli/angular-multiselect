@@ -176,7 +176,8 @@
 }
 
 .multi-select .form-control[disabled="disabled"] {
-  background: #eee;
-  color: #999;
+  background: #e1e1e1;
+  border-color: #bababa;
+  color: #bababa;
   cursor: default;
 }
