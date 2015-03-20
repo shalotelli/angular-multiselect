@@ -46,6 +46,7 @@
           model: '=',
           name: '@',
           showFilters: '@',
+          showCloseBtn: '@',
           showOther: '@',
           isSelected: '&',
           otherNgModel: '@',
@@ -134,6 +135,12 @@
           attrs.$observe('showFilters', function (showFilters) {
             // if no showFilters flag set
             scope.showFilters = showFilters || true;
+          });
+
+          // show close button default value
+          attrs.$observe('showCloseBtn', function (showCloseBtn) {
+            // if no flag set
+            scope.showCloseBtn = showCloseBtn || true;
           });
 
           // show other default value

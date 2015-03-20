@@ -58,6 +58,7 @@ These are default configuration variables that can be overriden via the ```multi
 | model | array | ngModel to save output to, anything in here also shows up as selected | yes | - |
 | name | string | Unique identifier (useful if there is more than one multiselect on the page) | no | - |
 | show-filters | boolean | Show select all/select none | no | true |
+| show-filters | boolean | Show close button | no | true |
 | show-other | boolean | Enable user to enter custom values | no | false |
 | is-selected | boolean | Default the select to checked when input changes but they dont click it | no | false |
 | other-ng-model| string |field to save the other value to  | no | undefined |

@@ -13,6 +13,39 @@
   color: #CCC;
 }
 
+.multi-select .close-btn {
+  float: right;
+  display: inline-block;
+  margin-top: -5px;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-selet: none;
+  -webkit-appearance: button;
+  background-image: none;
+  background-color: #fff;
+  border: 1px solid #999;
+  color: #999;
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.multi-select .close-btn::before {
+  content: '× ';
+  font-weight: bold;
+}
+
+.multi-select .close-btn:active {
+  background-image: none;
+  outline: 0;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+  box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
+}
+
 .multi-select > .multi-select-dropdown {
   background-color: #fff;
   position: absolute;
@@ -26,6 +59,8 @@
   min-width: 300px;
   overflow-y: auto;
 }
+
+
 
 .dropdown-top {
   bottom: 38px;
