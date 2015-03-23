@@ -13,6 +13,10 @@
   color: #CCC;
 }
 
+.multi-select > .multi-select-container[disabled] {
+  background-color: #e1e1e1;
+}
+
 .multi-select .close-btn {
   float: right;
   display: inline-block;
