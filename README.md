@@ -70,6 +70,7 @@ These are default configuration variables that can be overriden via the ```multi
 | close-on-select | boolean | Should the dropdown close after each selection | no | false |
 | emit-on-select | boolean | Emit a message when an option is selected/deselected | no | false |
 | disabled | boolean | Disable element | no | false |
+| loading | boolean | Disable element and show loading indicator | no | false |
 
 # Events
 

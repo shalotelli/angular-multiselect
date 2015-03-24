@@ -1,4 +1,4 @@
-angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCache",function(e){e.put("/directives/multi-select.html",'<div class="multi-select"><input type="text" class="form-control multi-select-container" ng-click="toggleDropdown()" value="{{displayOptions()}}" placeholder="None Selected" ng-disabled="disabled" readonly="readonly"><div class="multi-select-dropdown hide"><div class="multi-select-filters" ng-show="showFilters"><span class="multi-select-filter" ng-click="selectAll()"><input type="checkbox" ng-model="allSelected" ng-click="clickSelectAllCheckbox($event)" class="multi-select-select-all-checkbox"> Select All</span> <button class="close-btn" ng-show="showCloseBtn">Close</button><!-- <button class="btn btn-xs pull-right">Close</button> --></div><!-- ./multi-select-filters --><ul><li class="multi-select-option" ng-repeat="value in values"><a class="multi-select-option-link" href="javascript:;" ng-if="!isOther(value)" ng-click="selectOption(value)" ng-class="{selected: isSelected(value)}"><input type="checkbox" ng-checked="isOptionSelected(value)" ng-click="clickCheckbox($event, value)"> {{value[labelField]}}</a><!-- ./multi-select-option-link --><div class="multi-select-other-container" ng-if="showOther && isOther(value)"><input type="text" class="form-control multi-select-other" placeholder="Other" ng-change="syncOther(value)" ng-keypress="close($event)" ng-model="shared.other"></div><!-- ./multi-select-other-container --></li><!-- ./multi-select-option --></ul></div><!-- ./multi-select-dropdown --></div>')}]);
+angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCache",function(e){e.put("/directives/multi-select.html",'<div class="multi-select"><input type="text" class="form-control multi-select-container" ng-click="toggleDropdown()" value="{{displayOptions()}}" placeholder="None Selected" ng-disabled="disabled || loading" readonly="readonly"><div class="multi-select-dropdown hide"><div class="multi-select-filters" ng-show="showFilters"><span class="multi-select-filter" ng-click="selectAll()"><input type="checkbox" ng-model="allSelected" ng-click="clickSelectAllCheckbox($event)" class="multi-select-select-all-checkbox"> Select All</span> <button class="close-btn" ng-show="showCloseBtn">Close</button><!-- <button class="btn btn-xs pull-right">Close</button> --></div><!-- ./multi-select-filters --><ul><li class="multi-select-option" ng-repeat="value in values"><a class="multi-select-option-link" href="javascript:;" ng-if="!isOther(value)" ng-click="selectOption(value)" ng-class="{selected: isSelected(value)}"><input type="checkbox" ng-checked="isOptionSelected(value)" ng-click="clickCheckbox($event, value)"> {{value[labelField]}}</a><!-- ./multi-select-option-link --><div class="multi-select-other-container" ng-if="showOther && isOther(value)"><input type="text" class="form-control multi-select-other" placeholder="Other" ng-change="syncOther(value)" ng-keypress="close($event)" ng-model="shared.other"></div><!-- ./multi-select-other-container --></li><!-- ./multi-select-option --></ul></div><!-- ./multi-select-dropdown --></div>')}]);
 (function (ng) {
   'use strict';
 
@@ -58,7 +58,8 @@ angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCac
           templatePath: '@',
           closeOnSelect: '@',
           emitOnSelect: '@',
-          disabled: '='
+          disabled: '=',
+          loading: '='
         },
 
         link: function multiSelectLink (scope, element, attrs) {
@@ -75,6 +76,8 @@ angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCac
                 
                 if (scope.disabled) {
                   label = 'None Available';
+                } else if (scope.loading) {
+                  label = 'Loading...';
                 } else if (scope.model.length === 1) {
                   label = scope.model[0][scope.labelField];
                 } else if (scope.areAllSelected() && scope.model.length) {

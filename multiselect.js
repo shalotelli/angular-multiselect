@@ -57,7 +57,8 @@
           templatePath: '@',
           closeOnSelect: '@',
           emitOnSelect: '@',
-          disabled: '='
+          disabled: '=',
+          loading: '='
         },
 
         link: function multiSelectLink (scope, element, attrs) {
@@ -74,6 +75,8 @@
                 
                 if (scope.disabled) {
                   label = 'None Available';
+                } else if (scope.loading) {
+                  label = 'Loading...';
                 } else if (scope.model.length === 1) {
                   label = scope.model[0][scope.labelField];
                 } else if (scope.areAllSelected() && scope.model.length) {
