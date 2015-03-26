@@ -257,7 +257,7 @@ angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCac
 
               if (($dropdown.height() + $dropdown.offset().top) > $window.innerHeight) {
                 if ($dropdown.height() > $dropdown.offset().top) {
-                  $dropdown.find('ul').css('max-height', '192px');
+                  $dropdown.find('ul').css('max-height', '224px');
                 }
               
                 $dropdown.addClass('dropdown-top');
