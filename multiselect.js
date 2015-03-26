@@ -255,6 +255,10 @@
               }
 
               if (($dropdown.height() + $dropdown.offset().top) > $window.innerHeight) {
+                if ($dropdown.height() > $dropdown.offset().top) {
+                  $dropdown.find('ul').css('max-height', '192px');
+                }
+              
                 $dropdown.addClass('dropdown-top');
               }
             } else {
