@@ -21,7 +21,7 @@
             name="demoDropdown"
             values="multiSelectData"
             model="selectedItems"
-            show-filters="true"
+            show-filters="showFilters"
             value-field="id"
             label-field="label">
           </multi-select>
@@ -30,7 +30,10 @@
 
       <hr>
 
-      <button class="btn btn-primary" ng-click="custom=!custom">Show custom</button>
+      <button class="btn btn-primary" ng-click="custom=!custom">Show Custom</button>
+      <button class="btn btn-primary" ng-click="showFilters=!showFilters">
+        {{showFilters ? 'Hide' : 'Show'}} Filters
+      </button>
 
       <div class="row" ng-if="custom">
         <div class="col-xs-6">

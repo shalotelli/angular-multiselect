@@ -77,6 +77,7 @@
 .multi-select > .multi-select-dropdown > .multi-select-filters {
   padding: 0 10px 8px 10px;
   border-bottom: 1px solid #e5e5e5;
+  min-height: 34px;
 }
 
 .multi-select > .multi-select-dropdown > .multi-select-filters > .multi-select-filter {

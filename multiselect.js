@@ -45,7 +45,7 @@
           values: '=',
           model: '=',
           name: '@',
-          showFilters: '@',
+          showFilters: '=',
           showCloseBtn: '@',
           showOther: '@',
           isSelected: '&',
@@ -133,12 +133,6 @@
 
           // array of selected options
           scope.selectedOptions = [];
-
-          // show filters default value
-          attrs.$observe('showFilters', function (showFilters) {
-            // if no showFilters flag set
-            scope.showFilters = showFilters || true;
-          });
 
           // show close button default value
           attrs.$observe('showCloseBtn', function (showCloseBtn) {
