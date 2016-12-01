@@ -248,7 +248,7 @@
                 scope.$emit(broadcastkey);
               }
 
-              if (($dropdown.height() + $dropdown.offset().top) > $window.innerHeight) {
+              if (($dropdown.height() + $dropdown.offset().top) > $("body").height()) {
                 if ($dropdown.height() > $dropdown.offset().top) {
                   $dropdown.find('ul').css('max-height', '224px');
                 }
