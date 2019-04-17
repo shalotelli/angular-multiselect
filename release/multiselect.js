@@ -236,6 +236,7 @@ angular.module("shalotelli-angular-multiselect.templates",[]).run(["$templateCac
            */
           scope.toggleDropdown = function toggleDropdown () {
             var broadcastkey = 'multiSelectDropdownOpen';
+            scope.allSelected = scope.areAllSelected();
 
             if ($dropdown.hasClass('hide')) {
               // close all other dropdowns on the page before showing the selected one
